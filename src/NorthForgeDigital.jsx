@@ -1,22 +1,30 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
 // ─────────────────────────────────────────────────────────────
-// Quayside Digital — one-page consultancy site (v3, Linear/dark)
-// Brand placeholder: "Quayside Digital". Swap BRAND to rename.
-// Replace EMAIL / LINKEDIN before launch.
-// TESTIMONIALS below are PLACEHOLDERS — replace with real client
-// quotes after your first few free audits. Do not launch with fakes.
+// NorthForge Digital — one-page consultancy site (v4)
+// Replace EMAIL / LINKEDIN / GITHUB before launch.
+// To add your photo: drop a square photo at src/munib.jpg,
+//   uncomment the import line below, and the <img> in About.
+// Testimonials are an honest placeholder until you have real ones.
+// Pricing uses "From £XX" placeholders — set real numbers or remove.
 // ─────────────────────────────────────────────────────────────
+
+// To add your photo: drop a square image at src/munib.jpg, then at the top of
+// this file add:  import munibPhoto from "./munib.jpg";
+// and swap the placeholder div in the About section for the <img> shown there.
 
 const BRAND = "NorthForge Digital";
 const OWNER = "Munib Ahmed";
 const EMAIL = "hello@northforgedigital.co.uk"; // ← change
 const LINKEDIN = "https://linkedin.com/in/your-handle"; // ← change
+const GITHUB = "https://github.com/Munib123456"; // ← change if needed
 
 const ACCENT = "#5E6AD2";
 const ACCENT_BRIGHT = "#7C8AF0";
 const FG = "#F2F2F4";
 const FG_MUTED = "#9098A3";
+const RED = "#c0492f";
+const GREEN = "#3d8a5f";
 
 function useReveal() {
   const ref = useRef(null);
@@ -27,7 +35,7 @@ function useReveal() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setShown(true); return; }
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setShown(true); obs.disconnect(); } },
-      { threshold: 0.15 }
+      { threshold: 0.12 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -47,7 +55,6 @@ function Reveal({ children, delay = 0, as: Tag = "div", style }) {
   );
 }
 
-// Glass card with cursor-following spotlight + accent edge glow
 function SpotCard({ children, style, pad = 26 }) {
   const ref = useRef(null);
   const [pos, setPos] = useState({ x: -300, y: -300, on: false });
@@ -70,12 +77,12 @@ function SpotCard({ children, style, pad = 26 }) {
         WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
         WebkitMaskComposite: "xor", maskComposite: "exclude",
       }} />
-      <div style={{ position: "relative" }}>{children}</div>
+      <div style={{ position: "relative", height: "100%" }}>{children}</div>
     </div>
   );
 }
 
-export default function QuaysideDigital() {
+export default function NorthForgeDigital() {
   const [form, setForm] = useState({ name: "", website: "", email: "", note: "" });
   const [sent, setSent] = useState(false);
   const [menu, setMenu] = useState(false);
@@ -94,38 +101,77 @@ export default function QuaysideDigital() {
     setSent(true);
   };
 
-  const nav = [["How it works", "#how"], ["Services", "#services"], ["Sample report", "#sample"], ["About", "#about"]];
+  const nav = [["How it works", "#how"], ["Services", "#services"], ["Pricing", "#pricing"], ["FAQ", "#faq"], ["About", "#about"]];
+
+  const who = ["Dentists", "Trades & builders", "Mechanics", "Gyms", "Clinics", "Accountants", "Estate agents", "Barbers", "Restaurants"];
 
   const steps = [
-    { n: "01", t: "Quick check", d: "I view your site like a customer would, on a phone first. Two minutes tells me if anything is worth flagging." },
-    { n: "02", t: "Full review", d: "Speed, mobile layout, how easy you are to contact or book, and whether the site looks trustworthy. AI speeds it up; I check every finding." },
-    { n: "03", t: "Plain report", d: "What is wrong, why it costs you enquiries, and what fixing it looks like. No jargon, no upsell." },
-    { n: "04", t: "Fix it", d: "A few fixes, a rebuild, or nothing. I tell you honestly which one you need." },
+    { n: "1", t: "Website review", d: "I go through your site like a customer would, on a phone first." },
+    { n: "2", t: "Identify issues", d: "I find what is actually stopping enquiries, calls, and bookings." },
+    { n: "3", t: "Recommend solutions", d: "A clear, ranked plan in plain English. Only what is worth doing." },
+    { n: "4", t: "Implement", d: "A few fixes, a rebuild, or nothing. I deliver whatever you choose." },
   ];
 
   const fixes = [
-    { t: "Hard to contact on a phone", d: "Tiny buttons, a number you cannot tap, a form that breaks. Around 6 in 10 visitors are on mobile. If it is awkward, they leave.", span: 4 },
+    { t: "Hard to contact on a phone", d: "Tiny buttons, a number you cannot tap, a form that breaks. Around 6 in 10 visitors are on mobile.", span: 4 },
     { t: "Slow to load", d: "Over half of people leave a page that takes more than 3 seconds.", span: 2 },
     { t: "Confusing booking", d: "If booking is not obvious in seconds, that is a lost customer.", span: 2 },
-    { t: "Looks out of date", d: "No reviews shown, old design, no clear contact details. Small things that quietly make people doubt you.", span: 4 },
+    { t: "Looks out of date", d: "No reviews shown, old design, no clear contact details. Small things that make people doubt you.", span: 4 },
     { t: "Invisible on Google", d: "A neglected Google profile means missing the people searching for you now.", span: 3 },
     { t: "Broken on mobile", d: "Overflowing text, cut-off images, menus that do not work.", span: 3 },
   ];
 
   const services = [
-    { t: "Website review", d: "A full health check with a clear, ranked list of what to fix first.", tag: "Start here" },
-    { t: "Targeted fixes", d: "Speed, mobile layout, contact forms, and booking flow sorted without a full rebuild." },
-    { t: "Google profile setup", d: "Get found by people searching locally, with hours, photos, and reviews in place." },
-    { t: "Website rebuild", d: "A fast, modern site when patching the old one is no longer worth it." },
-    { t: "Ongoing support", d: "Updates, backups, and small changes so the site keeps working after launch." },
-    { t: "Booking and forms", d: "Simpler forms and booking that more visitors actually finish." },
+    { t: "Website Problem Review", d: "Find what is stopping your website from getting enquiries.", tag: "Start here" },
+    { t: "Website Fixes & Improvements", d: "Broken buttons, poor mobile layouts, slow pages, contact forms, booking issues, unclear buttons." },
+    { t: "Website Redesign / Rebuild", d: "If the current site is too outdated, rebuild it properly from scratch." },
+    { t: "Mobile Optimisation", d: "Make the website work properly on phones, where most customers check you out." },
+    { t: "Booking & Contact Flow", d: "Make it easier for customers to call, book, enquire, or request a quote." },
+    { t: "Google Business Profile", d: "Improve local visibility: opening hours, services, photos, links, and trust signals." },
+    { t: "Speed & Performance", d: "Compress images, improve loading speed, and reduce friction." },
+    { t: "Trust & Conversion", d: "Add reviews, stronger wording, better service pages, and clearer buttons." },
+    { t: "Ongoing Support", d: "Monthly updates, small changes, monitoring, fixes, backups, and new pages." },
+    { t: "AI & Automation (later)", d: "Chatbots, enquiry automation, basic analytics, and automated replies." },
   ];
 
-  // PLACEHOLDER testimonials — replace with real ones after your first audits.
-  const reviews = [
-    { q: "Found three things on our site I had no idea were turning people away. The phone fix alone got us more calls.", name: "Sarah", role: "Salon owner, Gosforth" },
-    { q: "Straight talking. He told me I did not need a new site, just a few fixes. Saved me hundreds.", name: "Dale", role: "Plumber, Gateshead" },
-    { q: "The report was simple enough that I actually understood it. Bookings are up since the changes.", name: "Priya", role: "Clinic manager, Jesmond" },
+  const whyUs = [
+    "AI-assisted, human reviewed",
+    "Plain English, no jargon",
+    "Transparent and honest",
+    "No unnecessary upselling",
+    "Real technical background",
+    "Local UK consultancy",
+  ];
+
+  const wontDo = [
+    "Sell you a new website if yours only needs a few fixes.",
+    "Bury you in technical jargon and frameworks.",
+    "Recommend work you do not actually need.",
+  ];
+
+  const reviewSteps = [
+    "I review your website properly.",
+    "I identify the biggest issues.",
+    "I explain them in plain English.",
+    "I recommend only the work that needs doing.",
+    "If you want it fixed, I send a quote.",
+    "If not, you keep the review for free.",
+  ];
+
+  const pricing = [
+    { t: "Website Review", price: "Free", note: "A full health check and a ranked list of what to fix first.", highlight: true },
+    { t: "Fixes & Optimisation", price: "From £XX", note: "Targeted improvements to speed, mobile, forms, and booking." },
+    { t: "Redesign / Rebuild", price: "Custom quote", note: "A fast, modern site when patching the old one is not worth it." },
+    { t: "Ongoing Support", price: "From £XX / mo", note: "Updates, backups, monitoring, and small changes." },
+  ];
+
+  const faqs = [
+    { q: "Do I actually need a new website?", a: "Often, no. Most sites just need a few targeted fixes. I will tell you honestly which one applies to you." },
+    { q: "How long does a review take?", a: "The review itself is quick. I usually send it back within a day or two, with a short video walking through it." },
+    { q: "Do you work with WordPress, Wix, Squarespace?", a: "Yes. I work with whatever your site is built on, and can fix the existing one rather than forcing a rebuild." },
+    { q: "Can you work on my current site?", a: "Yes. Improving what you already have is usually the cheaper, faster option, and often all you need." },
+    { q: "Is this a security test?", a: "No. I only review what is publicly visible. I do not do any kind of hacking, scanning, or intrusive testing." },
+    { q: "What does it cost to get started?", a: "Nothing. The first review is free with no obligation. You only pay if you want me to carry out the work." },
   ];
 
   return (
@@ -157,7 +203,7 @@ export default function QuaysideDigital() {
         .qd-input { font-family: inherit; font-size: 16px; width: 100%; padding: 13px 15px; background: #0E0E11; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; color: #f3f4f6; transition: border-color .2s ease, box-shadow .2s ease; }
         .qd-input::placeholder { color: #636b78; }
         .qd-input:focus { outline: none; border-color: ${ACCENT}; box-shadow: 0 0 0 3px rgba(94,106,210,0.25); }
-        .qd-btn:focus-visible, .qd-link:focus-visible { outline: 2px solid ${ACCENT}; outline-offset: 3px; border-radius: 6px; }
+        .qd-btn:focus-visible, .qd-link:focus-visible, .qd-faq:focus-visible { outline: 2px solid ${ACCENT}; outline-offset: 3px; border-radius: 6px; }
         h1,h2,h3 { line-height: 1.04; letter-spacing: -0.025em; font-weight: 600; }
         .qd-grad { background: linear-gradient(180deg, #fff 25%, rgba(255,255,255,0.62)); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .qd-accent { background: linear-gradient(100deg, ${ACCENT}, #9aa6ff, ${ACCENT}); background-size: 220% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 7s linear infinite; }
@@ -167,14 +213,17 @@ export default function QuaysideDigital() {
         @keyframes pulse { 0%,100% { opacity: .07; } 50% { opacity: .15; } }
         .qd-bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
         .qd-svc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-        .qd-rev { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .qd-price { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        .qd-steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: stretch; }
+        .qd-two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
         .qd-navlinks { display: none; }
-        @media (min-width: 820px) { .qd-navlinks { display: flex; } .qd-menu-btn { display: none; } }
-        @media (max-width: 819px) {
-          .qd-bento, .qd-svc, .qd-rev { grid-template-columns: 1fr; }
+        @media (min-width: 880px) { .qd-navlinks { display: flex; } .qd-menu-btn { display: none; } }
+        @media (max-width: 879px) {
+          .qd-bento, .qd-steps4, .qd-two { grid-template-columns: 1fr; }
           .qd-bento > * { grid-column: 1 / -1 !important; }
+          .qd-svc, .qd-price { grid-template-columns: 1fr 1fr; }
         }
-        @media (min-width: 560px) and (max-width: 819px) { .qd-svc, .qd-rev { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 540px) { .qd-svc, .qd-price { grid-template-columns: 1fr; } }
         @media (prefers-reduced-motion: reduce) { *, html { scroll-behavior: auto; animation: none !important; } }
       `}</style>
 
@@ -195,7 +244,7 @@ export default function QuaysideDigital() {
               <span style={{ width: 11, height: 11, borderRadius: 3, background: ACCENT, boxShadow: `0 0 12px ${ACCENT}`, transform: "rotate(45deg)" }} />
               {BRAND}
             </a>
-            <nav className="qd-navlinks" style={{ gap: 30, alignItems: "center", fontSize: 14.5 }}>
+            <nav className="qd-navlinks" style={{ gap: 26, alignItems: "center", fontSize: 14.5 }}>
               {nav.map(([t, h]) => <a key={h} href={h} className="qd-link">{t}</a>)}
               <a href="#contact" className="qd-btn qd-btn-primary" style={{ padding: "9px 17px", borderRadius: 9, fontSize: 14, textDecoration: "none" }}>Free review</a>
             </nav>
@@ -213,7 +262,7 @@ export default function QuaysideDigital() {
 
         <main id="top">
           {/* HERO */}
-          <section style={{ padding: "clamp(72px,11vw,128px) 0 clamp(64px,9vw,104px)" }}>
+          <section style={{ padding: "clamp(72px,11vw,128px) 0 clamp(56px,8vw,88px)" }}>
             <div className="qd-wrap" style={{ textAlign: "center" }}>
               <Reveal>
                 <div className="qd-mono" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 11.5, letterSpacing: "0.16em", textTransform: "uppercase", color: FG_MUTED, padding: "7px 14px", border: "1px solid rgba(94,106,210,0.3)", borderRadius: 999, marginBottom: 28, background: "rgba(94,106,210,0.05)" }}>
@@ -225,22 +274,38 @@ export default function QuaysideDigital() {
                 <h1 style={{ fontSize: "clamp(38px,7.2vw,78px)", maxWidth: 900, margin: "0 auto", letterSpacing: "-0.035em", lineHeight: 1.02 }}>
                   <span className="qd-grad">Your website could be </span>
                   <span className="qd-accent">losing you customers.</span>
-                  <span className="qd-grad"> I find out why.</span>
+                  <span className="qd-grad"> I find out why, and fix it.</span>
                 </h1>
               </Reveal>
               <Reveal delay={150}>
-                <p style={{ fontSize: "clamp(17px,2.1vw,20px)", color: FG_MUTED, maxWidth: 540, margin: "24px auto 0", lineHeight: 1.55 }}>
-                  I review local business websites, show you what stops people calling or booking, then fix it. Plain English, no waffle.
+                <p style={{ fontSize: "clamp(17px,2.1vw,20px)", color: FG_MUTED, maxWidth: 600, margin: "24px auto 0", lineHeight: 1.55 }}>
+                  Whether your site needs a few targeted fixes, a better booking flow, mobile improvements, or a full rebuild, I help you find the right solution and deliver it.
                 </p>
               </Reveal>
               <Reveal delay={230}>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 36 }}>
-                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ padding: "15px 28px", borderRadius: 11, fontSize: 16, textDecoration: "none" }}>Get a free review</a>
+                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ padding: "15px 28px", borderRadius: 11, fontSize: 16, textDecoration: "none" }}>Book a free website review</a>
                   <a href="#sample" className="qd-btn qd-btn-ghost" style={{ padding: "15px 26px", borderRadius: 11, fontSize: 16, textDecoration: "none" }}>See a sample</a>
                 </div>
               </Reveal>
               <Reveal delay={300}>
                 <p className="qd-mono" style={{ marginTop: 26, fontSize: 12, color: "#5d6470", letterSpacing: "0.04em" }}>CS graduate · one business at a time · no obligation</p>
+              </Reveal>
+            </div>
+          </section>
+
+          {/* WHO I HELP */}
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(44px,6vw,64px) 0" }}>
+            <div className="qd-wrap" style={{ textAlign: "center" }}>
+              <Reveal>
+                <p className="qd-mono" style={{ fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: ACCENT_BRIGHT, marginBottom: 22 }}>I work with local businesses like</p>
+              </Reveal>
+              <Reveal delay={60}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
+                  {who.map((w) => (
+                    <span key={w} style={{ fontSize: 14.5, color: "#c8cdd5", padding: "8px 16px", borderRadius: 999, border: "1px solid rgba(255,255,255,0.10)", background: "rgba(255,255,255,0.03)" }}>{w}</span>
+                  ))}
+                </div>
               </Reveal>
             </div>
           </section>
@@ -263,12 +328,12 @@ export default function QuaysideDigital() {
               <Reveal><Label>How it works</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>Diagnose first. Fix what matters.</h2></Reveal>
               <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 500, marginBottom: 44, fontSize: 17 }}>Most agencies want to sell you a new site. I start by telling you if you even need one.</p></Reveal>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(218px,1fr))", gap: 14 }}>
+              <div className="qd-steps4">
                 {steps.map((s, i) => (
-                  <Reveal key={s.n} delay={i * 70}>
-                    <SpotCard pad={24}>
-                      <div className="qd-mono" style={{ fontSize: 13, color: ACCENT_BRIGHT, letterSpacing: "0.1em", marginBottom: 18, opacity: 0.9 }}>{s.n}</div>
-                      <h3 style={{ fontSize: 19, marginBottom: 8, color: FG }}>{s.t}</h3>
+                  <Reveal key={s.n} delay={i * 70} style={{ height: "100%" }}>
+                    <SpotCard pad={24} style={{ display: "flex", flexDirection: "column" }}>
+                      <div style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(94,106,210,0.15)", border: "1px solid rgba(94,106,210,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, color: ACCENT_BRIGHT, marginBottom: 16, fontSize: 17 }}>{s.n}</div>
+                      <h3 style={{ fontSize: 18, marginBottom: 8, color: FG }}>{s.t}</h3>
                       <p style={{ color: FG_MUTED, fontSize: 14.5 }}>{s.d}</p>
                     </SpotCard>
                   </Reveal>
@@ -302,19 +367,69 @@ export default function QuaysideDigital() {
           <section id="services" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>Services</Label></Reveal>
-              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 540, marginBottom: 12 }}>What I can do for you</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 500, marginBottom: 44, fontSize: 17 }}>Start with a free review. Everything below follows only if it is worth your money.</p></Reveal>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>Review, fix, improve, rebuild, maintain</h2></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 560, marginBottom: 44, fontSize: 17 }}>I don't just tell you what's wrong. I can implement the fixes, improve your current website, or rebuild it if that's the better option.</p></Reveal>
               <div className="qd-svc">
                 {services.map((s, i) => (
-                  <Reveal key={s.t} delay={i * 55} style={{ height: "100%" }}>
-                    <SpotCard pad={24} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                      {s.tag && <span className="qd-mono" style={{ alignSelf: "flex-start", fontSize: 10.5, color: ACCENT_BRIGHT, letterSpacing: "0.08em", textTransform: "uppercase", border: "1px solid rgba(94,106,210,0.35)", padding: "3px 8px", borderRadius: 999, marginBottom: 4 }}>{s.tag}</span>}
-                      <h3 style={{ fontSize: 18, color: FG }}>{s.t}</h3>
-                      <p style={{ color: FG_MUTED, fontSize: 14.5 }}>{s.d}</p>
+                  <Reveal key={s.t} delay={i * 45} style={{ height: "100%" }}>
+                    <SpotCard pad={22} style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+                      {s.tag && <span className="qd-mono" style={{ alignSelf: "flex-start", fontSize: 10.5, color: ACCENT_BRIGHT, letterSpacing: "0.08em", textTransform: "uppercase", border: "1px solid rgba(94,106,210,0.35)", padding: "3px 8px", borderRadius: 999, marginBottom: 3 }}>{s.tag}</span>}
+                      <h3 style={{ fontSize: 17, color: FG }}>{s.t}</h3>
+                      <p style={{ color: FG_MUTED, fontSize: 14 }}>{s.d}</p>
                     </SpotCard>
                   </Reveal>
                 ))}
               </div>
+            </div>
+          </section>
+
+          {/* WHY + WHAT I DON'T DO */}
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+            <div className="qd-wrap qd-two">
+              <Reveal>
+                <Label>Why NorthForge</Label>
+                <h2 className="qd-grad" style={{ fontSize: "clamp(26px,4vw,38px)", marginBottom: 28 }}>Built to be trusted</h2>
+                <div style={{ display: "grid", gap: 12 }}>
+                  {whyUs.map((w) => (
+                    <div key={w} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <CheckIcon color={GREEN} />
+                      <span style={{ fontSize: 16, color: "#d6dae1" }}>{w}</span>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+              <Reveal delay={100}>
+                <Label>What I won't do</Label>
+                <h2 className="qd-grad" style={{ fontSize: "clamp(26px,4vw,38px)", marginBottom: 28 }}>No pressure, no nonsense</h2>
+                <div style={{ display: "grid", gap: 12 }}>
+                  {wontDo.map((w) => (
+                    <div key={w} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                      <CrossIcon color={RED} />
+                      <span style={{ fontSize: 16, color: "#d6dae1" }}>{w}</span>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </section>
+
+          {/* WHAT HAPPENS DURING A REVIEW */}
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+            <div className="qd-wrap">
+              <Reveal><Label>What happens during a review</Label></Reveal>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 40 }}>No risk to you, no catch</h2></Reveal>
+              <Reveal delay={120}>
+                <SpotCard pad={30} style={{ maxWidth: 700 }}>
+                  <div style={{ display: "grid", gap: 16 }}>
+                    {reviewSteps.map((s, i) => (
+                      <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                        <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
+                        <span style={{ fontSize: 16, color: "#d6dae1" }}>{s}</span>
+                      </div>
+                    ))}
+                  </div>
+                </SpotCard>
+              </Reveal>
             </div>
           </section>
 
@@ -323,33 +438,25 @@ export default function QuaysideDigital() {
             <div className="qd-wrap">
               <Reveal><Label>Sample report</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 520, marginBottom: 12 }}>Exactly what you get</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 520, marginBottom: 40, fontSize: 17 }}>A short, visual review with a 90-second video walkthrough. Yours is specific to your site.</p></Reveal>
-              <Reveal delay={150}><SampleReport /></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 540, marginBottom: 14, fontSize: 17 }}>A short, visual review with a 90-second video walkthrough. Yours is specific to your site.</p></Reveal>
+              <Reveal delay={140}><p className="qd-mono" style={{ fontSize: 12, color: "#5d6470", marginBottom: 40, letterSpacing: "0.04em" }}>EXAMPLE ONLY — created to show the format</p></Reveal>
+              <Reveal delay={170}><SampleReport /></Reveal>
             </div>
           </section>
 
-          {/* TESTIMONIALS */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          {/* PRICING */}
+          <section id="pricing" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
             <div className="qd-wrap">
-              <Reveal><Label>What people say</Label></Reveal>
-              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 520, marginBottom: 44 }}>From recent reviews</h2></Reveal>
-              <div className="qd-rev">
-                {reviews.map((r, i) => (
-                  <Reveal key={i} delay={i * 70} style={{ height: "100%" }}>
-                    <SpotCard pad={26} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 22 }}>
-                      <div>
-                        <div style={{ display: "flex", gap: 3, marginBottom: 14 }}>
-                          {[0,1,2,3,4].map((s) => <Star key={s} />)}
-                        </div>
-                        <p style={{ fontSize: 16, color: "#d6dae1", lineHeight: 1.5 }}>{r.q}</p>
-                      </div>
-                      <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
-                        <span style={{ width: 34, height: 34, borderRadius: "50%", background: "linear-gradient(135deg, #5E6AD2, #9aa6ff)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 600, color: "#fff" }}>{r.name[0]}</span>
-                        <div>
-                          <div style={{ fontSize: 14.5, fontWeight: 600, color: FG }}>{r.name}</div>
-                          <div style={{ fontSize: 13, color: FG_MUTED }}>{r.role}</div>
-                        </div>
-                      </div>
+              <Reveal><Label>Pricing</Label></Reveal>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 520, marginBottom: 12 }}>Simple and honest</h2></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 520, marginBottom: 44, fontSize: 17 }}>The first review is free. Everything else is quoted only after I know what your site actually needs.</p></Reveal>
+              <div className="qd-price">
+                {pricing.map((p, i) => (
+                  <Reveal key={p.t} delay={i * 60} style={{ height: "100%" }}>
+                    <SpotCard pad={24} style={{ display: "flex", flexDirection: "column", gap: 8, border: p.highlight ? "1px solid rgba(94,106,210,0.4)" : undefined }}>
+                      <h3 style={{ fontSize: 16.5, color: FG }}>{p.t}</h3>
+                      <div className="qd-accent" style={{ fontSize: 26, fontWeight: 700 }}>{p.price}</div>
+                      <p style={{ color: FG_MUTED, fontSize: 14 }}>{p.note}</p>
                     </SpotCard>
                   </Reveal>
                 ))}
@@ -357,16 +464,53 @@ export default function QuaysideDigital() {
             </div>
           </section>
 
+          {/* FAQ */}
+          <section id="faq" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+            <div className="qd-wrap" style={{ maxWidth: 760 }}>
+              <Reveal><Label>FAQ</Label></Reveal>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", marginBottom: 40 }}>Questions, answered</h2></Reveal>
+              <div style={{ display: "grid", gap: 12 }}>
+                {faqs.map((f, i) => <Reveal key={i} delay={i * 40}><FaqItem q={f.q} a={f.a} /></Reveal>)}
+              </div>
+            </div>
+          </section>
+
+          {/* TESTIMONIALS (honest placeholder) */}
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+            <div className="qd-wrap">
+              <Reveal><Label>Testimonials</Label></Reveal>
+              <Reveal delay={60}>
+                <SpotCard pad={36} style={{ textAlign: "center", maxWidth: 620, margin: "0 auto" }}>
+                  <h3 style={{ fontSize: 22, color: FG, marginBottom: 10 }}>Real reviews coming soon</h3>
+                  <p style={{ color: FG_MUTED, fontSize: 16, maxWidth: 460, margin: "0 auto" }}>
+                    NorthForge is new, so I'd rather show real client feedback than invent it. This space fills up as I complete the first reviews.
+                  </p>
+                  <a href="#contact" className="qd-btn qd-btn-ghost" style={{ display: "inline-block", marginTop: 22, padding: "12px 22px", borderRadius: 10, fontSize: 15, textDecoration: "none" }}>Be one of the first</a>
+                </SpotCard>
+              </Reveal>
+            </div>
+          </section>
+
           {/* ABOUT */}
           <section id="about" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
-            <div className="qd-wrap" style={{ maxWidth: 720 }}>
-              <Reveal><Label>About</Label></Reveal>
-              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(26px,4vw,40px)", marginBottom: 20 }}>A local CS graduate, not a call centre</h2></Reveal>
-              <Reveal delay={110}>
+            <div className="qd-wrap" style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 32, alignItems: "start", maxWidth: 860 }}>
+              <Reveal>
+                {/* Photo placeholder. To use a real photo, add the import at the top
+                    of the file (see comment) and replace this div with an img tag:
+                    <img src={munibPhoto} alt="Munib Ahmed" width={132} height={132}
+                      style={{ borderRadius: 20, objectFit: "cover",
+                      border: "1px solid rgba(255,255,255,0.1)" }} /> */}
+                <div style={{ width: 132, height: 132, borderRadius: 20, background: "linear-gradient(135deg, rgba(94,106,210,0.25), rgba(154,166,255,0.1))", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <span className="qd-mono" style={{ fontSize: 12, color: FG_MUTED, textAlign: "center", padding: 12 }}>your photo here</span>
+                </div>
+              </Reveal>
+              <Reveal delay={80}>
+                <Label>About</Label>
+                <h2 className="qd-grad" style={{ fontSize: "clamp(24px,3.6vw,36px)", marginBottom: 18 }}>A local CS graduate, not a call centre</h2>
                 <div style={{ color: "#c2c7cf", fontSize: 17, display: "grid", gap: 14 }}>
-                  <p>I am {OWNER}, a Computer Science graduate in Newcastle. I build and fix websites, and I am good at spotting the small things that make a site harder to use.</p>
-                  <p>I work with one business at a time, so you get real attention. AI helps me move fast, but I check every finding myself. You never get nonsense dressed up as expertise.</p>
-                  <p>If your site needs a few tweaks, I say so. If it needs rebuilding, I say that too. The honest answer is the point.</p>
+                  <p>I'm {OWNER}, a Computer Science graduate from Northumbria University, based in Newcastle.</p>
+                  <p>I built NorthForge because too many local businesses have websites that quietly lose customers every day. Rather than selling sites people don't need, I find the real problems and deliver the right fix.</p>
+                  <p>AI helps me move fast, but I check every finding myself. If your site needs a few tweaks, I say so. If it needs rebuilding, I say that too.</p>
                 </div>
               </Reveal>
             </div>
@@ -376,8 +520,8 @@ export default function QuaysideDigital() {
           <section id="contact" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(64px,9vw,112px) 0 clamp(72px,10vw,120px)" }}>
             <div className="qd-wrap" style={{ maxWidth: 540 }}>
               <Reveal><div style={{ textAlign: "center" }}><Label center>Free, no obligation</Label></div></Reveal>
-              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", textAlign: "center", marginBottom: 14 }}>Get your free review</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, fontSize: 17, textAlign: "center", maxWidth: 420, margin: "0 auto 36px" }}>Send your website. I reply with the main things worth fixing. No pressure to buy.</p></Reveal>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", textAlign: "center", marginBottom: 14 }}>Book your free website review</h2></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, fontSize: 17, textAlign: "center", maxWidth: 440, margin: "0 auto 36px" }}>Send your website. I reply with the main things worth fixing. No pressure to buy.</p></Reveal>
               <Reveal delay={160}>
                 <SpotCard pad={28}>
                   {sent ? (
@@ -398,25 +542,36 @@ export default function QuaysideDigital() {
                   )}
                 </SpotCard>
               </Reveal>
+              <Reveal delay={220}>
+                <p style={{ textAlign: "center", marginTop: 40, fontSize: "clamp(18px,2.4vw,22px)", color: "#c2c7cf", maxWidth: 520, margin: "40px auto 0", lineHeight: 1.4 }}>
+                  Your website should be helping your business grow, not quietly costing you customers.
+                </p>
+              </Reveal>
             </div>
           </section>
         </main>
 
         {/* FOOTER */}
-        <footer style={{ background: "#020203", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "38px 0" }}>
-          <div className="qd-wrap" style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", alignItems: "center", fontSize: 14 }}>
+        <footer style={{ background: "#020203", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "40px 0" }}>
+          <div className="qd-wrap" style={{ display: "flex", flexWrap: "wrap", gap: 20, justifyContent: "space-between", alignItems: "center", fontSize: 14 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, color: FG, fontWeight: 600 }}>
               <span style={{ width: 10, height: 10, borderRadius: 3, background: ACCENT, boxShadow: `0 0 10px ${ACCENT}`, transform: "rotate(45deg)" }} />
               {BRAND}
             </div>
-            <div style={{ display: "flex", gap: 22, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" }}>
               <a href={`mailto:${EMAIL}`} className="qd-link">{EMAIL}</a>
               <a href={LINKEDIN} className="qd-link">LinkedIn</a>
+              <a href={GITHUB} className="qd-link">GitHub</a>
               <span style={{ color: FG_MUTED }}>Newcastle upon Tyne</span>
             </div>
           </div>
-          <div className="qd-wrap" style={{ marginTop: 16, fontSize: 12.5, color: "#4a5159" }}>
-            © {new Date().getFullYear()} {BRAND}. Findings are based on a publicly observable website review only.
+          <div className="qd-wrap" style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", fontSize: 12.5, color: "#4a5159" }}>
+            <span>© {new Date().getFullYear()} {BRAND}. Findings are based on a publicly observable website review only.</span>
+            <span style={{ display: "flex", gap: 16 }}>
+              <a href="#" className="qd-link" style={{ fontSize: 12.5 }}>Privacy</a>
+              <a href="#" className="qd-link" style={{ fontSize: 12.5 }}>Terms</a>
+              <a href="#" className="qd-link" style={{ fontSize: 12.5 }}>Cookies</a>
+            </span>
           </div>
         </footer>
       </div>
@@ -444,13 +599,33 @@ function Field({ label, required, children }) {
   );
 }
 
-function Star() {
-  return <svg width="15" height="15" viewBox="0 0 24 24" fill="#7C8AF0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>;
+function FaqItem({ q, a }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="qd-card" style={{ overflow: "hidden" }}>
+      <button className="qd-btn qd-faq" onClick={() => setOpen((o) => !o)} aria-expanded={open}
+        style={{ width: "100%", background: "transparent", color: FG, padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, textAlign: "left", fontSize: 16.5, fontWeight: 500 }}>
+        {q}
+        <span style={{ flexShrink: 0, transform: open ? "rotate(45deg)" : "rotate(0deg)", transition: "transform .25s ease", color: ACCENT_BRIGHT, fontSize: 22, lineHeight: 1 }}>+</span>
+      </button>
+      <div style={{ maxHeight: open ? 200 : 0, overflow: "hidden", transition: "max-height .3s cubic-bezier(.16,1,.3,1)" }}>
+        <p style={{ padding: "0 22px 20px", color: FG_MUTED, fontSize: 15.5 }}>{a}</p>
+      </div>
+    </div>
+  );
+}
+
+function CheckIcon({ color, small }) {
+  const s = small ? 13 : 20;
+  return <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><polyline points="20 6 9 17 4 12" /></svg>;
+}
+function CrossIcon({ color }) {
+  return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" style={{ flexShrink: 0, marginTop: 2 }}><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>;
 }
 
 function SampleReport() {
   const rows = [
-    { label: "Critical", color: "#c0492f", title: "Phone number is not tappable on mobile", impact: "Around 6 in 10 visitors are on phones. They have to copy the number by hand, and many will not bother." },
+    { label: "Critical", color: "#c0492f", title: "Phone number is not tappable on mobile", impact: "Around 6 in 10 visitors are on phones. They have to copy the number by hand, and many won't bother." },
     { label: "Critical", color: "#c0492f", title: "Pages take 6+ seconds to load", impact: "Over half of people leave after 3 seconds. You lose them before they see a word." },
     { label: "Important", color: "#e08a2a", title: "Booking form has 11 fields", impact: "Long forms put people off. Cutting to 4 usually lifts completed bookings." },
     { label: "Important", color: "#e08a2a", title: "No reviews shown anywhere", impact: "Your Google reviews are strong but invisible on the site, where trust is decided." },
