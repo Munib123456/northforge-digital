@@ -15,7 +15,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const BRAND = "NorthForge Digital";
 const OWNER = "Munib Ahmed";
-const EMAIL = "hello@northforgedigital.co.uk"; // ← change
+const EMAIL = "hello@north-forge.studio"; // ← MUST be a real inbox you can read. Until pro email is set up, use a gmail like northforgeuk@gmail.com
 const LINKEDIN = "https://linkedin.com/in/your-handle"; // ← change
 const GITHUB = "https://github.com/Munib123456"; // ← change if needed
 
@@ -284,7 +284,7 @@ export default function NorthForgeDigital() {
               </Reveal>
               <Reveal delay={230}>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 36 }}>
-                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ padding: "15px 28px", borderRadius: 11, fontSize: 16, textDecoration: "none" }}>Book a free website review</a>
+                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ padding: "15px 28px", borderRadius: 11, fontSize: 16, textDecoration: "none" }}>Request your free website review</a>
                   <a href="#sample" className="qd-btn qd-btn-ghost" style={{ padding: "15px 26px", borderRadius: 11, fontSize: 16, textDecoration: "none" }}>See a sample</a>
                 </div>
               </Reveal>
@@ -520,7 +520,7 @@ export default function NorthForgeDigital() {
           <section id="contact" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(64px,9vw,112px) 0 clamp(72px,10vw,120px)" }}>
             <div className="qd-wrap" style={{ maxWidth: 540 }}>
               <Reveal><div style={{ textAlign: "center" }}><Label center>Free, no obligation</Label></div></Reveal>
-              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", textAlign: "center", marginBottom: 14 }}>Book your free website review</h2></Reveal>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", textAlign: "center", marginBottom: 14 }}>Request your free website review</h2></Reveal>
               <Reveal delay={110}><p style={{ color: FG_MUTED, fontSize: 17, textAlign: "center", maxWidth: 440, margin: "0 auto 36px" }}>Send your website. I reply with the main things worth fixing. No pressure to buy.</p></Reveal>
               <Reveal delay={160}>
                 <SpotCard pad={28}>
