@@ -223,16 +223,20 @@ export default function NorthForgeDigital() {
           .qd-svc, .qd-ce { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 540px) { .qd-svc, .qd-ce { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+          .qd-blob { filter: blur(80px) !important; opacity: 0.5 !important; animation: none !important; }
+          .qd-grid { display: none !important; }
+        }
         @media (prefers-reduced-motion: reduce) { *, html { scroll-behavior: auto; animation: none !important; } }
       `}</style>
 
       {/* AMBIENT BACKGROUND */}
       <div aria-hidden style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", background: "radial-gradient(ellipse at top, #0b0b11 0%, #050506 52%, #020203 100%)" }}>
-        <div style={{ position: "absolute", top: -220, left: "50%", marginLeft: -460, width: 920, height: 1000, borderRadius: "50%", background: "rgba(94,106,210,0.22)", filter: "blur(155px)", animation: "float1 9s ease-in-out infinite" }} />
-        <div style={{ position: "absolute", top: 320, left: -220, width: 620, height: 800, borderRadius: "50%", background: "rgba(150,94,210,0.13)", filter: "blur(125px)", animation: "float2 11s ease-in-out infinite" }} />
-        <div style={{ position: "absolute", top: 220, right: -160, width: 520, height: 720, borderRadius: "50%", background: "rgba(94,150,210,0.12)", filter: "blur(105px)", animation: "float1 10s ease-in-out infinite" }} />
-        <div style={{ position: "absolute", bottom: -120, left: "30%", width: 720, height: 520, borderRadius: "50%", background: "rgba(94,106,210,1)", filter: "blur(150px)", animation: "pulse 8s ease-in-out infinite" }} />
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)", backgroundSize: "64px 64px", maskImage: "radial-gradient(ellipse at center, #000 30%, transparent 80%)" }} />
+        <div className="qd-blob" style={{ position: "absolute", top: -220, left: "50%", marginLeft: -460, width: 920, height: 1000, borderRadius: "50%", background: "rgba(94,106,210,0.22)", filter: "blur(155px)", animation: "float1 9s ease-in-out infinite" }} />
+        <div className="qd-blob" style={{ position: "absolute", top: 320, left: -220, width: 620, height: 800, borderRadius: "50%", background: "rgba(150,94,210,0.13)", filter: "blur(125px)", animation: "float2 11s ease-in-out infinite" }} />
+        <div className="qd-blob" style={{ position: "absolute", top: 220, right: -160, width: 520, height: 720, borderRadius: "50%", background: "rgba(94,150,210,0.12)", filter: "blur(105px)", animation: "float1 10s ease-in-out infinite" }} />
+        <div className="qd-blob" style={{ position: "absolute", bottom: -120, left: "30%", width: 720, height: 520, borderRadius: "50%", background: "rgba(94,106,210,1)", filter: "blur(150px)", animation: "pulse 8s ease-in-out infinite" }} />
+        <div className="qd-grid" style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)", backgroundSize: "64px 64px", maskImage: "radial-gradient(ellipse at center, #000 30%, transparent 80%)" }} />
       </div>
 
       <div style={{ position: "relative", zIndex: 1 }}>
