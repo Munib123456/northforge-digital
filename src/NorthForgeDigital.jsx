@@ -12,7 +12,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const BRAND = "NorthForge Digital";
 const OWNER = "Munib Ahmed";
-const EMAIL = "northforgedigital@gmail.com"; // ← MUST be a real inbox you check. Switch to hello@north-forge.studio once that mailbox works.
+const EMAIL = "northforgedigital1@gmail.com"; // ← MUST be a real inbox you check. Switch to hello@north-forge.studio once that mailbox works.
 const LINKEDIN = "https://www.linkedin.com/in/munib-ahmed-53a568294/";
 
 const ACCENT = "#5E6AD2";
@@ -515,7 +515,7 @@ export default function NorthForgeDigital() {
                     <img src={munibPhoto} alt="Munib Ahmed" width={132} height={132}
                       style={{ borderRadius: 20, objectFit: "cover",
                       border: "1px solid rgba(255,255,255,0.1)" }} /> */}
-<img src="/munibpic.jpeg" alt="Munib Ahmed" width={132} height={132}
+<img src="/munibpic.jpg" alt="Munib Ahmed" width={132} height={132}
                   style={{ borderRadius: 20, objectFit: "cover", border: "1px solid rgba(255,255,255,0.1)", flexShrink: 0, display: "block" }} />
               </Reveal>
               <Reveal delay={80}>
