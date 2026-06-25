@@ -508,16 +508,7 @@ export default function NorthForgeDigital() {
 
           {/* ABOUT (story-led, lower on page) */}
           <section id="about" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
-            <div className="qd-wrap" style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 32, alignItems: "start", maxWidth: 860 }}>
-              <Reveal>
-                {/* Photo placeholder. To use a real photo, add at the top of the file:
-                    import munibPhoto from "./munib.jpg";  then replace this div with:
-                    <img src={munibPhoto} alt="Munib Ahmed" width={132} height={132}
-                      style={{ borderRadius: 20, objectFit: "cover",
-                      border: "1px solid rgba(255,255,255,0.1)" }} /> */}
-<img src="/munibpic.jpg" alt="Munib Ahmed" width={132} height={132}
-                  style={{ borderRadius: 20, objectFit: "cover", border: "1px solid rgba(255,255,255,0.1)", flexShrink: 0, display: "block" }} />
-              </Reveal>
+            <div className="qd-wrap" style={{ maxWidth: 860 }}>
               <Reveal delay={80}>
                 <Label>About</Label>
                 <h2 className="qd-grad" style={{ fontSize: "clamp(24px,3.6vw,36px)", marginBottom: 18 }}>Why I started NorthForge</h2>
