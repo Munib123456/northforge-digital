@@ -515,9 +515,8 @@ export default function NorthForgeDigital() {
                     <img src={munibPhoto} alt="Munib Ahmed" width={132} height={132}
                       style={{ borderRadius: 20, objectFit: "cover",
                       border: "1px solid rgba(255,255,255,0.1)" }} /> */}
-                <div style={{ width: 132, height: 132, borderRadius: 20, background: "linear-gradient(135deg, rgba(94,106,210,0.25), rgba(154,166,255,0.1))", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <span className="qd-mono" style={{ fontSize: 12, color: FG_MUTED, textAlign: "center", padding: 12 }}>your photo here</span>
-                </div>
+<img src="/munibpic.jpeg" alt="Munib Ahmed" width={132} height={132}
+                  style={{ borderRadius: 20, objectFit: "cover", border: "1px solid rgba(255,255,255,0.1)", flexShrink: 0, display: "block" }} />
               </Reveal>
               <Reveal delay={80}>
                 <Label>About</Label>
