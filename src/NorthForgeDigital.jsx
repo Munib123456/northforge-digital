@@ -1,23 +1,19 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
 // ─────────────────────────────────────────────────────────────
-// NorthForge Digital — one-page consultancy site (v4)
-// Replace EMAIL / LINKEDIN / GITHUB before launch.
-// To add your photo: drop a square photo at src/munib.jpg,
-//   uncomment the import line below, and the <img> in About.
-// Testimonials are an honest placeholder until you have real ones.
-// Pricing explains how quotes work after the free review.
+// NorthForge Digital — one-page consultancy site (v5)
+// Voice: first person singular ("I"), honest solo positioning.
+// Replace EMAIL if your real inbox differs. LinkedIn is set.
+// TODO before launch (not in this file): favicon, OpenGraph meta,
+//   real Privacy/Terms/Cookies pages, form backend, analytics.
+// To add your photo: drop src/munib.jpg, add  import munibPhoto from "./munib.jpg";
+//   at the top, and swap the placeholder div in About for an <img>.
 // ─────────────────────────────────────────────────────────────
-
-// To add your photo: drop a square image at src/munib.jpg, then at the top of
-// this file add:  import munibPhoto from "./munib.jpg";
-// and swap the placeholder div in the About section for the <img> shown there.
 
 const BRAND = "NorthForge Digital";
 const OWNER = "Munib Ahmed";
-const EMAIL = "hello@north-forge.studio"; // ← MUST be a real inbox you can read. Until pro email is set up, use a gmail like northforgeuk@gmail.com
-const LINKEDIN = "https://linkedin.com/in/your-handle"; // ← change
-const GITHUB = "https://github.com/Munib123456"; // ← change if needed
+const EMAIL = "hello@north-forge.studio"; // ← must be a real inbox you can read
+const LINKEDIN = "https://www.linkedin.com/in/munib-ahmed-53a568294/";
 
 const ACCENT = "#5E6AD2";
 const ACCENT_BRIGHT = "#7C8AF0";
@@ -83,7 +79,7 @@ function SpotCard({ children, style, pad = 26 }) {
 }
 
 export default function NorthForgeDigital() {
-  const [form, setForm] = useState({ name: "", website: "", email: "", note: "" });
+  const [form, setForm] = useState({ business: "", website: "", email: "", note: "" });
   const [sent, setSent] = useState(false);
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -94,10 +90,22 @@ export default function NorthForgeDigital() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const submit = () => {
+  const submit = async (event) => {
+    event.preventDefault();
     if (!form.website || !form.email) return;
-    const body = encodeURIComponent(`Name: ${form.name}\nWebsite: ${form.website}\nEmail: ${form.email}\n\n${form.note}`);
-    window.location.href = `mailto:${EMAIL}?subject=Website%20review%20request&body=${body}`;
+
+    const formData = new FormData(event.currentTarget);
+    const body = new URLSearchParams();
+    formData.forEach((value, key) => {
+      body.append(key, value.toString());
+    });
+
+    await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    });
+
     setSent(true);
   };
 
@@ -106,10 +114,20 @@ export default function NorthForgeDigital() {
   const who = ["Dentists", "Trades & builders", "Mechanics", "Gyms", "Clinics", "Accountants", "Estate agents", "Barbers", "Restaurants"];
 
   const steps = [
-    { n: "1", t: "Website review", d: "We go through your site like a customer would, on a phone first." },
-    { n: "2", t: "Identify issues", d: "We find what is actually stopping enquiries, calls, and bookings." },
+    { n: "1", t: "Website review", d: "I go through your site like a customer would, on a phone first." },
+    { n: "2", t: "Identify issues", d: "I find what is actually stopping enquiries, calls, and bookings." },
     { n: "3", t: "Recommend solutions", d: "A clear, ranked plan in plain English. Only what is worth doing." },
-    { n: "4", t: "Implement", d: "A few fixes, a rebuild, or nothing. We deliver whatever you choose." },
+    { n: "4", t: "Implement", d: "A few fixes, a rebuild, or nothing. I deliver whatever you choose." },
+  ];
+
+  // Cause -> effect: why websites lose customers
+  const causeEffect = [
+    { cause: "Slow loading pages", effect: "Visitors leave before the page even appears." },
+    { cause: "Broken or fiddly forms", effect: "Enquiries never reach you." },
+    { cause: "Poor mobile experience", effect: "Lost bookings from phone users." },
+    { cause: "Confusing layout", effect: "People can't find how to contact you." },
+    { cause: "No reviews on show", effect: "Visitors doubt you and go elsewhere." },
+    { cause: "Hard to find on Google", effect: "Local customers never see you." },
   ];
 
   const fixes = [
@@ -121,26 +139,26 @@ export default function NorthForgeDigital() {
     { t: "Broken on mobile", d: "Overflowing text, cut-off images, menus that do not work.", span: 3 },
   ];
 
+  // Services phrased as business outcomes
   const services = [
-    { t: "Website Problem Review", d: "Find what is stopping your website from getting enquiries.", tag: "Start here" },
-    { t: "Website Fixes & Improvements", d: "Broken buttons, poor mobile layouts, slow pages, contact forms, booking issues, unclear buttons." },
-    { t: "Website Redesign / Rebuild", d: "If the current site is too outdated, rebuild it properly from scratch." },
-    { t: "Mobile Optimisation", d: "Make the website work properly on phones, where most customers check you out." },
-    { t: "Booking & Contact Flow", d: "Make it easier for customers to call, book, enquire, or request a quote." },
-    { t: "Google Business Profile", d: "Improve local visibility: opening hours, services, photos, links, and trust signals." },
-    { t: "Speed & Performance", d: "Compress images, improve loading speed, and reduce friction." },
-    { t: "Trust & Conversion", d: "Add reviews, stronger wording, better service pages, and clearer buttons." },
-    { t: "Ongoing Support", d: "Monthly updates, small changes, monitoring, fixes, backups, and new pages." },
-    { t: "AI & Automation (later)", d: "Chatbots, enquiry automation, basic analytics, and automated replies." },
+    { t: "Find what's costing you customers", d: "A full review of what's stopping your site getting enquiries.", tag: "Start here" },
+    { t: "Fix what's putting people off", d: "Broken buttons, poor mobile layouts, slow pages, confusing forms and booking." },
+    { t: "Rebuild it properly", d: "If the current site is too far gone, a clean modern rebuild from scratch." },
+    { t: "Make it easy to contact you", d: "Mobile improvements so phone users can call, book, or enquire in seconds." },
+    { t: "Turn visitors into enquiries", d: "Simpler booking and contact so more people actually finish." },
+    { t: "Get found locally on Google", d: "Opening hours, services, photos, and trust signals on your Google profile." },
+    { t: "Stop people leaving early", d: "Faster pages by compressing images and reducing what slows the site down." },
+    { t: "Build trust at a glance", d: "Reviews, clearer wording, better service pages, and obvious next steps." },
+    { t: "Keep it running smoothly", d: "Ongoing updates, small changes, monitoring, fixes, backups, and new pages." },
   ];
 
-  const whyUs = [
-    "AI-assisted, human reviewed",
-    "Plain English, no jargon",
-    "Transparent and honest",
-    "No unnecessary upselling",
-    "Real technical background",
-    "Local UK consultancy",
+  const trust = [
+    "Computer Science graduate, Northumbria University",
+    "Based in Newcastle, not a faceless call centre",
+    "Every recommendation reviewed by a real person",
+    "No unnecessary rebuilds or upselling",
+    "Plain English, never jargon",
+    "Honest answers, even when they cost me work",
   ];
 
   const wontDo = [
@@ -150,21 +168,21 @@ export default function NorthForgeDigital() {
   ];
 
   const reviewSteps = [
-    "We review your website properly.",
-    "We identify the biggest issues.",
-    "We explain them in plain English.",
-    "We recommend only the work that needs doing.",
-    "If you want it fixed, we send a quote.",
+    "You send me your website.",
+    "I review it properly and find the biggest issues.",
+    "I explain them in plain English.",
+    "I recommend only the work that needs doing.",
+    "You decide if you want me to fix anything.",
     "If not, you keep the review for free.",
   ];
 
   const faqs = [
-    { q: "Do I actually need a new website?", a: "Often, no. Most sites just need a few targeted fixes. We'll tell you honestly which one applies to you." },
-    { q: "How long does a review take?", a: "The review itself is quick. We usually send it back within a day or two, with a short video walking through it." },
-    { q: "Do you work with WordPress, Wix, Squarespace?", a: "Yes. We work with whatever your site is built on, and can fix the existing one rather than forcing a rebuild." },
+    { q: "Do I actually need a new website?", a: "Often, no. Most sites just need a few targeted fixes. I will tell you honestly which one applies to you." },
+    { q: "How long does a review take?", a: "The review itself is quick. I usually send it back within a day or two, with a short video walking through it." },
+    { q: "Do you work with WordPress, Wix, Squarespace?", a: "Yes. I work with whatever your site is built on, and can fix the existing one rather than forcing a rebuild." },
     { q: "Can you work on my current site?", a: "Yes. Improving what you already have is usually the cheaper, faster option, and often all you need." },
     { q: "Is this a security test?", a: "No. I only review what is publicly visible. I do not do any kind of hacking, scanning, or intrusive testing." },
-    { q: "What does it cost to get started?", a: "Nothing. The first review is free with no obligation. You only pay if you want us to carry out the work." },
+    { q: "What does it cost to get started?", a: "Nothing. The first review is free with no obligation. You only pay if you want me to carry out the work." },
   ];
 
   return (
@@ -206,7 +224,7 @@ export default function NorthForgeDigital() {
         @keyframes pulse { 0%,100% { opacity: .07; } 50% { opacity: .15; } }
         .qd-bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
         .qd-svc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-        .qd-price { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        .qd-ce { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
         .qd-steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: stretch; }
         .qd-two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
         .qd-navlinks { display: none; }
@@ -214,9 +232,9 @@ export default function NorthForgeDigital() {
         @media (max-width: 879px) {
           .qd-bento, .qd-steps4, .qd-two { grid-template-columns: 1fr; }
           .qd-bento > * { grid-column: 1 / -1 !important; }
-          .qd-svc, .qd-price { grid-template-columns: 1fr 1fr; }
+          .qd-svc, .qd-ce { grid-template-columns: 1fr 1fr; }
         }
-        @media (max-width: 540px) { .qd-svc, .qd-price { grid-template-columns: 1fr; } }
+        @media (max-width: 540px) { .qd-svc, .qd-ce { grid-template-columns: 1fr; } }
         @media (prefers-reduced-motion: reduce) { *, html { scroll-behavior: auto; animation: none !important; } }
       `}</style>
 
@@ -267,12 +285,12 @@ export default function NorthForgeDigital() {
                 <h1 style={{ fontSize: "clamp(38px,7.2vw,78px)", maxWidth: 900, margin: "0 auto", letterSpacing: "-0.035em", lineHeight: 1.02 }}>
                   <span className="qd-grad">Your website could be </span>
                   <span className="qd-accent">losing you customers.</span>
-                  <span className="qd-grad"> We find out why, and fix it.</span>
+                  <span className="qd-grad"> I find out why, and fix it.</span>
                 </h1>
               </Reveal>
               <Reveal delay={150}>
-                <p style={{ fontSize: "clamp(17px,2.1vw,20px)", color: FG_MUTED, maxWidth: 600, margin: "24px auto 0", lineHeight: 1.55 }}>
-                  Whether your site needs a few targeted fixes, a better booking flow, mobile improvements, or a full rebuild, we help you find the right solution and deliver it.
+                <p style={{ fontSize: "clamp(17px,2.1vw,21px)", color: FG_MUTED, maxWidth: 560, margin: "24px auto 0", lineHeight: 1.55 }}>
+                  I review websites, find what's costing you customers, and put the right fix in place.
                 </p>
               </Reveal>
               <Reveal delay={230}>
@@ -282,7 +300,7 @@ export default function NorthForgeDigital() {
                 </div>
               </Reveal>
               <Reveal delay={300}>
-                <p className="qd-mono" style={{ marginTop: 26, fontSize: 12, color: "#5d6470", letterSpacing: "0.04em" }}> one business at a time · no obligation</p>
+                <p className="qd-mono" style={{ marginTop: 26, fontSize: 12, color: "#5d6470", letterSpacing: "0.04em" }}>One business at a time · honest advice · no obligation</p>
               </Reveal>
             </div>
           </section>
@@ -291,7 +309,7 @@ export default function NorthForgeDigital() {
           <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(44px,6vw,64px) 0" }}>
             <div className="qd-wrap" style={{ textAlign: "center" }}>
               <Reveal>
-                <p className="qd-mono" style={{ fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: ACCENT_BRIGHT, marginBottom: 22 }}>We work with local businesses like</p>
+                <p className="qd-mono" style={{ fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: ACCENT_BRIGHT, marginBottom: 22 }}>I work with local businesses like</p>
               </Reveal>
               <Reveal delay={60}>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
@@ -315,12 +333,36 @@ export default function NorthForgeDigital() {
             </div>
           </section>
 
+          {/* WHY WEBSITES LOSE CUSTOMERS (cause -> effect) */}
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+            <div className="qd-wrap">
+              <Reveal><Label>Why websites lose customers</Label></Reveal>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 44 }}>Small problems, real lost business</h2></Reveal>
+              <div className="qd-ce">
+                {causeEffect.map((c, i) => (
+                  <Reveal key={c.cause} delay={i * 55} style={{ height: "100%" }}>
+                    <SpotCard pad={22} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <CrossIcon color={RED} />
+                        <span style={{ fontSize: 16.5, fontWeight: 600, color: FG }}>{c.cause}</span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, paddingLeft: 4 }}>
+                        <ArrowDown />
+                        <span style={{ fontSize: 14.5, color: FG_MUTED }}>{c.effect}</span>
+                      </div>
+                    </SpotCard>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {/* HOW IT WORKS */}
           <section id="how" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>How it works</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>Diagnose first. Fix what matters.</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 500, marginBottom: 44, fontSize: 17 }}>Most agencies want to sell you a new site. We start by telling you if you even need one.</p></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 500, marginBottom: 44, fontSize: 17 }}>Most agencies want to sell you a new site. I start by telling you if you even need one.</p></Reveal>
               <div className="qd-steps4">
                 {steps.map((s, i) => (
                   <Reveal key={s.n} delay={i * 70} style={{ height: "100%" }}>
@@ -338,7 +380,7 @@ export default function NorthForgeDigital() {
           {/* WHAT I LOOK FOR (bento) */}
           <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
             <div className="qd-wrap">
-              <Reveal><Label>What we look for</Label></Reveal>
+              <Reveal><Label>What I look for</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 44 }}>What quietly turns visitors away</h2></Reveal>
               <div className="qd-bento">
                 {fixes.map((f, i) => (
@@ -360,8 +402,8 @@ export default function NorthForgeDigital() {
           <section id="services" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>Services</Label></Reveal>
-              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>Review, fix, improve, rebuild, maintain</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 560, marginBottom: 44, fontSize: 17 }}>We don't just tell you what's wrong. We can implement the fixes, improve your current website, or rebuild it if that's the better option.</p></Reveal>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>What I can do for your business</h2></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 560, marginBottom: 44, fontSize: 17 }}>I don't just tell you what's wrong. I implement the fixes, improve your current website, or rebuild it if that's the better option.</p></Reveal>
               <div className="qd-svc">
                 {services.map((s, i) => (
                   <Reveal key={s.t} delay={i * 45} style={{ height: "100%" }}>
@@ -376,14 +418,14 @@ export default function NorthForgeDigital() {
             </div>
           </section>
 
-          {/* WHY + WHAT I DON'T DO */}
+          {/* WHY TRUST + WHAT I WON'T DO */}
           <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
             <div className="qd-wrap qd-two">
               <Reveal>
-                <Label>Why NorthForge</Label>
+                <Label>Why trust NorthForge</Label>
                 <h2 className="qd-grad" style={{ fontSize: "clamp(26px,4vw,38px)", marginBottom: 28 }}>Built to be trusted</h2>
                 <div style={{ display: "grid", gap: 12 }}>
-                  {whyUs.map((w) => (
+                  {trust.map((w) => (
                     <div key={w} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <CheckIcon color={GREEN} />
                       <span style={{ fontSize: 16, color: "#d6dae1" }}>{w}</span>
@@ -392,7 +434,7 @@ export default function NorthForgeDigital() {
                 </div>
               </Reveal>
               <Reveal delay={100}>
-                <Label>What we won't do</Label>
+                <Label>What I won't do</Label>
                 <h2 className="qd-grad" style={{ fontSize: "clamp(26px,4vw,38px)", marginBottom: 28 }}>No pressure, no nonsense</h2>
                 <div style={{ display: "grid", gap: 12 }}>
                   {wontDo.map((w) => (
@@ -437,34 +479,28 @@ export default function NorthForgeDigital() {
             </div>
           </section>
 
-          {/* PRICING */}
+          {/* PRICING (explainer, no numbers) */}
           <section id="pricing" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
-            <div className="qd-wrap">
+            <div className="qd-wrap" style={{ maxWidth: 760 }}>
               <Reveal><Label>Pricing</Label></Reveal>
-              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 520, marginBottom: 12 }}>Simple, honest pricing</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 720, marginBottom: 44, fontSize: 17 }}>Every business and website is different, so I don't believe in one-size-fits-all prices. Here's how it works.</p></Reveal>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", marginBottom: 12 }}>Simple, honest pricing</h2></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 540, marginBottom: 40, fontSize: 17 }}>Every business and website is different, so I don't do one-size-fits-all prices. Here's how it works.</p></Reveal>
               <Reveal delay={150}>
-                <SpotCard pad={30} style={{ maxWidth: 860 }}>
+                <SpotCard pad={30}>
                   <div style={{ display: "grid", gap: 16 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                      <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
-                      <span style={{ fontSize: 16, color: "#d6dae1" }}>The first website review is completely free.</span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                      <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
-                      <span style={{ fontSize: 16, color: "#d6dae1" }}>After the review, I give you a clear, fixed quote for any work, with no obligation.</span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                      <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
-                      <span style={{ fontSize: 16, color: "#d6dae1" }}>Small fixes cost far less than a full rebuild, and I'll always recommend the cheaper option when it's the right one.</span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                      <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
-                      <span style={{ fontSize: 16, color: "#d6dae1" }}>No hidden fees, no surprise charges, no pressure to go ahead.</span>
-                    </div>
+                    {[
+                      "The first website review is completely free.",
+                      "After the review, you get a clear, fixed quote for any work, with no obligation.",
+                      "Small fixes cost far less than a rebuild, and I'll always point you to the cheaper option when it's the right one.",
+                      "No hidden fees, no surprise charges, no pressure to go ahead.",
+                    ].map((p, i) => (
+                      <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                        <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
+                        <span style={{ fontSize: 16, color: "#d6dae1" }}>{p}</span>
+                      </div>
+                    ))}
                   </div>
-                  <p style={{ color: FG_MUTED, fontSize: 16, marginTop: 24 }}>Want a quote? Send your website for a free review and I'll explain exactly what it needs.</p>
-                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ display: "inline-block", marginTop: 16, padding: "13px 24px", borderRadius: 10, fontSize: 15, textDecoration: "none" }}>Get my free review</a>
+                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ display: "inline-block", marginTop: 26, padding: "13px 24px", borderRadius: 11, fontSize: 15, textDecoration: "none" }}>Get my free review</a>
                 </SpotCard>
               </Reveal>
             </div>
@@ -481,28 +517,12 @@ export default function NorthForgeDigital() {
             </div>
           </section>
 
-          {/* TESTIMONIALS (honest placeholder) */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
-            <div className="qd-wrap">
-              <Reveal><Label>Testimonials</Label></Reveal>
-              <Reveal delay={60}>
-                <SpotCard pad={36} style={{ textAlign: "center", maxWidth: 620, margin: "0 auto" }}>
-                  <h3 style={{ fontSize: 22, color: FG, marginBottom: 10 }}>Real reviews coming soon</h3>
-                  <p style={{ color: FG_MUTED, fontSize: 16, maxWidth: 460, margin: "0 auto" }}>
-                    NorthForge is new, so we'd rather show real client feedback than invent it. This space fills up as we complete the first reviews.
-                  </p>
-                  <a href="#contact" className="qd-btn qd-btn-ghost" style={{ display: "inline-block", marginTop: 22, padding: "12px 22px", borderRadius: 10, fontSize: 15, textDecoration: "none" }}>Be one of the first</a>
-                </SpotCard>
-              </Reveal>
-            </div>
-          </section>
-
-          {/* ABOUT */}
+          {/* ABOUT (story-led, lower on page) */}
           <section id="about" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
             <div className="qd-wrap" style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 32, alignItems: "start", maxWidth: 860 }}>
               <Reveal>
-                {/* Photo placeholder. To use a real photo, add the import at the top
-                    of the file (see comment) and replace this div with an img tag:
+                {/* Photo placeholder. To use a real photo, add at the top of the file:
+                    import munibPhoto from "./munib.jpg";  then replace this div with:
                     <img src={munibPhoto} alt="Munib Ahmed" width={132} height={132}
                       style={{ borderRadius: 20, objectFit: "cover",
                       border: "1px solid rgba(255,255,255,0.1)" }} /> */}
@@ -512,11 +532,11 @@ export default function NorthForgeDigital() {
               </Reveal>
               <Reveal delay={80}>
                 <Label>About</Label>
-                <h2 className="qd-grad" style={{ fontSize: "clamp(24px,3.6vw,36px)", marginBottom: 18 }}>A local CS graduate, not a call centre</h2>
+                <h2 className="qd-grad" style={{ fontSize: "clamp(24px,3.6vw,36px)", marginBottom: 18 }}>Why I started NorthForge</h2>
                 <div style={{ color: "#c2c7cf", fontSize: 17, display: "grid", gap: 14 }}>
-                  <p>I'm {OWNER}, a Computer Science graduate from Northumbria University, based in Newcastle.</p>
-                  <p>We built NorthForge because too many local businesses have websites that quietly lose customers every day. Rather than selling sites people don't need, we find the real problems and deliver the right fix.</p>
-                  <p>AI helps us move fast, but we check every finding ourselves. If your site needs a few tweaks, we say so. If it needs rebuilding, we say that too.</p>
+                  <p>I started NorthForge after noticing that most local businesses weren't losing customers because they had terrible websites. They were losing them because of small problems nobody had pointed out.</p>
+                  <p>A broken booking form. A slow page. A site that's awkward on a phone. A confusing layout. Quiet issues that cost real enquiries every week.</p>
+                  <p>My goal is simple: find those problems, explain them in plain English, and fix them. I'm {OWNER}, a Computer Science graduate from Northumbria University, based in Newcastle, and I work with one business at a time.</p>
                 </div>
               </Reveal>
             </div>
@@ -527,24 +547,26 @@ export default function NorthForgeDigital() {
             <div className="qd-wrap" style={{ maxWidth: 540 }}>
               <Reveal><div style={{ textAlign: "center" }}><Label center>Free, no obligation</Label></div></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", textAlign: "center", marginBottom: 14 }}>Request your free website review</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, fontSize: 17, textAlign: "center", maxWidth: 440, margin: "0 auto 36px" }}>Send your website. We reply with the main things worth fixing. No pressure to buy.</p></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, fontSize: 17, textAlign: "center", maxWidth: 440, margin: "0 auto 36px" }}>Send your website. I reply with the main things worth fixing. No pressure to buy.</p></Reveal>
               <Reveal delay={160}>
                 <SpotCard pad={28}>
                   {sent ? (
                     <div style={{ textAlign: "center", padding: "14px 0" }}>
                       <div style={{ fontSize: 38, marginBottom: 8, color: ACCENT_BRIGHT }}>✓</div>
-                      <h3 style={{ fontSize: 20, marginBottom: 8, color: FG }}>Your email is ready</h3>
-                      <p style={{ color: FG_MUTED, fontSize: 15 }}>If your email app did not open, message us at <a href={`mailto:${EMAIL}`} style={{ color: ACCENT_BRIGHT, fontWeight: 600 }}>{EMAIL}</a>.</p>
+                      <h3 style={{ fontSize: 20, marginBottom: 8, color: FG }}>Your review request is sent</h3>
+                      <p style={{ color: FG_MUTED, fontSize: 15 }}>Thanks — I’ll review it and get back to you as soon as I can.</p>
                     </div>
                   ) : (
-                    <div style={{ display: "grid", gap: 14 }}>
-                      <Field label="Your website" required><input className="qd-input" placeholder="yourbusiness.co.uk" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} /></Field>
-                      <Field label="Your email" required><input className="qd-input" type="email" placeholder="you@business.co.uk" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></Field>
-                      <Field label="Your name"><input className="qd-input" placeholder="First name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></Field>
-                      <Field label="Anything to look at? (optional)"><textarea className="qd-input" rows={3} placeholder="e.g. nobody uses our booking form" value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} /></Field>
-                      <button className="qd-btn qd-btn-primary" onClick={submit} style={{ padding: 15, borderRadius: 11, fontSize: 16, marginTop: 4 }}>Send us a free review</button>
-                      <p style={{ fontSize: 12.5, color: "#5d6470", textAlign: "center" }}>We only use your details to reply about your review.</p>
-                    </div>
+                    <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={submit} style={{ display: "grid", gap: 14 }}>
+                      <input type="hidden" name="form-name" value="contact" />
+                      <input name="bot-field" style={{ display: "none" }} value="" onChange={() => {}} />
+                      <Field label="Business name"><input className="qd-input" name="business" placeholder="Your business" value={form.business} onChange={(e) => setForm({ ...form, business: e.target.value })} /></Field>
+                      <Field label="Your website" required><input className="qd-input" name="website" placeholder="yourbusiness.co.uk" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} /></Field>
+                      <Field label="Your email" required><input className="qd-input" name="email" type="email" placeholder="you@business.co.uk" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></Field>
+                      <Field label="Anything to look at? (optional)"><textarea className="qd-input" name="note" rows={3} placeholder="e.g. nobody uses our booking form" value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} /></Field>
+                      <button className="qd-btn qd-btn-primary" type="submit" style={{ padding: 15, borderRadius: 11, fontSize: 16, marginTop: 4 }}>Send my free review request</button>
+                      <p style={{ fontSize: 12.5, color: "#5d6470", textAlign: "center" }}>I only use your details to reply about your review.</p>
+                    </form>
                   )}
                 </SpotCard>
               </Reveal>
@@ -566,17 +588,17 @@ export default function NorthForgeDigital() {
             </div>
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap", alignItems: "center" }}>
               <a href={`mailto:${EMAIL}`} className="qd-link">{EMAIL}</a>
-              <a href={LINKEDIN} className="qd-link">LinkedIn</a>
-              <a href={GITHUB} className="qd-link">GitHub</a>
+              <a href={LINKEDIN} className="qd-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a href="#contact" className="qd-link">Book a call</a>
               <span style={{ color: FG_MUTED }}>Newcastle upon Tyne</span>
             </div>
           </div>
           <div className="qd-wrap" style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", fontSize: 12.5, color: "#4a5159" }}>
             <span>© {new Date().getFullYear()} {BRAND}. Findings are based on a publicly observable website review only.</span>
             <span style={{ display: "flex", gap: 16 }}>
-              <a href="#" className="qd-link" style={{ fontSize: 12.5 }}>Privacy</a>
-              <a href="#" className="qd-link" style={{ fontSize: 12.5 }}>Terms</a>
-              <a href="#" className="qd-link" style={{ fontSize: 12.5 }}>Cookies</a>
+              <a href="/privacy" className="qd-link" style={{ fontSize: 12.5 }}>Privacy</a>
+              <a href="/terms" className="qd-link" style={{ fontSize: 12.5 }}>Terms</a>
+              <a href="/cookies" className="qd-link" style={{ fontSize: 12.5 }}>Cookies</a>
             </span>
           </div>
         </footer>
@@ -614,7 +636,7 @@ function FaqItem({ q, a }) {
         {q}
         <span style={{ flexShrink: 0, transform: open ? "rotate(45deg)" : "rotate(0deg)", transition: "transform .25s ease", color: ACCENT_BRIGHT, fontSize: 22, lineHeight: 1 }}>+</span>
       </button>
-      <div style={{ maxHeight: open ? 200 : 0, overflow: "hidden", transition: "max-height .3s cubic-bezier(.16,1,.3,1)" }}>
+      <div style={{ maxHeight: open ? 220 : 0, overflow: "hidden", transition: "max-height .3s cubic-bezier(.16,1,.3,1)" }}>
         <p style={{ padding: "0 22px 20px", color: FG_MUTED, fontSize: 15.5 }}>{a}</p>
       </div>
     </div>
@@ -628,34 +650,53 @@ function CheckIcon({ color, small }) {
 function CrossIcon({ color }) {
   return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" style={{ flexShrink: 0, marginTop: 2 }}><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>;
 }
+function ArrowDown() {
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C8AF0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><line x1="12" y1="5" x2="12" y2="19" /><polyline points="19 12 12 19 5 12" /></svg>;
+}
 
 function SampleReport() {
   const rows = [
-    { label: "Critical", color: "#c0492f", title: "Phone number is not tappable on mobile", impact: "Around 6 in 10 visitors are on phones. They have to copy the number by hand, and many won't bother." },
-    { label: "Critical", color: "#c0492f", title: "Pages take 6+ seconds to load", impact: "Over half of people leave after 3 seconds. You lose them before they see a word." },
-    { label: "Important", color: "#e08a2a", title: "Booking form has 11 fields", impact: "Long forms put people off. Cutting to 4 usually lifts completed bookings." },
-    { label: "Important", color: "#e08a2a", title: "No reviews shown anywhere", impact: "Your Google reviews are strong but invisible on the site, where trust is decided." },
-    { label: "Quick win", color: "#3d8a5f", title: "Google profile missing opening hours", impact: "People searching nearby skip listings with no hours. A 5-minute fix." },
+    { label: "Critical", color: "#c0492f", title: "Phone number is not tappable on mobile", impact: "Around 6 in 10 visitors are on phones. They have to copy the number by hand, and many won't bother.", fix: "Make it a tap-to-call link." },
+    { label: "Critical", color: "#c0492f", title: "Pages take 6+ seconds to load", impact: "Over half of people leave after 3 seconds. You lose them before they see a word.", fix: "Compress images and clean up code." },
+    { label: "Important", color: "#e08a2a", title: "Booking form has 11 fields", impact: "Long forms put people off. Cutting to 4 usually lifts completed bookings.", fix: "Trim to name, contact, date, service." },
+    { label: "Important", color: "#e08a2a", title: "No reviews shown anywhere", impact: "Your Google reviews are strong but invisible on the site, where trust is decided.", fix: "Add a reviews strip near the top." },
+    { label: "Quick win", color: "#3d8a5f", title: "Google profile missing opening hours", impact: "People searching nearby skip listings with no hours.", fix: "Add hours and photos. 5 minutes." },
   ];
   return (
-    <div className="qd-card" style={{ overflow: "hidden", maxWidth: 780 }}>
+    <div className="qd-card" style={{ overflow: "hidden", maxWidth: 820 }}>
+      {/* header bar styled like a document */}
       <div style={{ background: "linear-gradient(to bottom, rgba(94,106,210,0.13), rgba(255,255,255,0.02))", padding: "22px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-        <div>
-          <div className="qd-mono" style={{ fontSize: 11, color: ACCENT_BRIGHT, letterSpacing: "0.13em", textTransform: "uppercase" }}>Website review</div>
-          <div style={{ fontSize: 21, marginTop: 4, color: FG, fontWeight: 600, letterSpacing: "-0.01em" }}>Sample: a Newcastle barber</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ display: "flex", gap: 6 }}>
+            <span style={{ width: 11, height: 11, borderRadius: "50%", background: "#c0492f" }} />
+            <span style={{ width: 11, height: 11, borderRadius: "50%", background: "#e08a2a" }} />
+            <span style={{ width: 11, height: 11, borderRadius: "50%", background: "#3d8a5f" }} />
+          </div>
+          <div>
+            <div className="qd-mono" style={{ fontSize: 11, color: ACCENT_BRIGHT, letterSpacing: "0.13em", textTransform: "uppercase" }}>Website review</div>
+            <div style={{ fontSize: 21, marginTop: 4, color: FG, fontWeight: 600, letterSpacing: "-0.01em" }}>Sample: a Newcastle barber</div>
+          </div>
         </div>
         <div style={{ textAlign: "center" }}>
           <div className="qd-accent" style={{ fontSize: 40, fontWeight: 700, lineHeight: 1 }}>58<span style={{ fontSize: 18, color: FG_MUTED }}>/100</span></div>
           <div className="qd-mono" style={{ fontSize: 10.5, color: FG_MUTED, marginTop: 3, letterSpacing: "0.1em" }}>HEALTH SCORE</div>
         </div>
       </div>
+      {/* column headers */}
+      <div className="qd-mono" style={{ display: "grid", gridTemplateColumns: "92px 1fr", gap: 14, padding: "12px 26px", borderBottom: "1px solid rgba(255,255,255,0.06)", fontSize: 10.5, letterSpacing: "0.1em", textTransform: "uppercase", color: "#5d6470" }}>
+        <span>Priority</span><span>Issue, impact &amp; fix</span>
+      </div>
       <div>
         {rows.map((r, i) => (
-          <div key={i} style={{ display: "flex", gap: 14, padding: "17px 26px", borderTop: i === 0 ? "none" : "1px solid rgba(255,255,255,0.05)", alignItems: "flex-start" }}>
-            <span className="qd-mono" style={{ flexShrink: 0, fontSize: 10, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em", color: "#fff", background: r.color, padding: "4px 9px", borderRadius: 6, marginTop: 2 }}>{r.label}</span>
+          <div key={i} style={{ display: "grid", gridTemplateColumns: "92px 1fr", gap: 14, padding: "17px 26px", borderTop: i === 0 ? "none" : "1px solid rgba(255,255,255,0.05)", alignItems: "flex-start" }}>
+            <span className="qd-mono" style={{ alignSelf: "flex-start", fontSize: 10, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em", color: "#fff", background: r.color, padding: "4px 9px", borderRadius: 6, justifySelf: "start" }}>{r.label}</span>
             <div>
-              <div style={{ fontWeight: 600, fontSize: 15.5, color: FG, marginBottom: 3 }}>{r.title}</div>
-              <div style={{ color: FG_MUTED, fontSize: 14 }}>{r.impact}</div>
+              <div style={{ fontWeight: 600, fontSize: 15.5, color: FG, marginBottom: 4 }}>{r.title}</div>
+              <div style={{ color: FG_MUTED, fontSize: 14, marginBottom: 6 }}>{r.impact}</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13.5, color: "#a9b0e0" }}>
+                <CheckIcon color={GREEN} small />
+                <span><strong style={{ color: "#c8cdd5", fontWeight: 600 }}>Fix:</strong> {r.fix}</span>
+              </div>
             </div>
           </div>
         ))}
