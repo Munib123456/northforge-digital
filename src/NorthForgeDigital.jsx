@@ -1,24 +1,22 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
 // ─────────────────────────────────────────────────────────────
-// NorthForge Digital — one-page consultancy site (v5)
+// NorthForge Digital — one-page consultancy site (v6)
 // Voice: first person singular ("I"), honest solo positioning.
+// NEW in v6: light / dark theme toggle in the nav. Dark is default.
+//   Colours are driven by CSS variables on a [data-theme] wrapper,
+//   so one toggle flips the whole site. Brand indigo stays the same
+//   in both modes. Choice is remembered for the visit (in state).
 // Replace EMAIL if your real inbox differs. LinkedIn is set.
-// TODO before launch (not in this file): favicon, OpenGraph meta,
-//   real Privacy/Terms/Cookies pages, form backend, analytics.
-// To add your photo: drop src/munib.jpg, add  import munibPhoto from "./munib.jpg";
-//   at the top, and swap the placeholder div in About for an <img>.
 // ─────────────────────────────────────────────────────────────
 
 const BRAND = "NorthForge Digital";
 const OWNER = "Munib Ahmed";
-const EMAIL = "northforgedigital1@gmail.com"; // ← MUST be a real inbox you check. Switch to hello@north-forge.studio once that mailbox works.
+const EMAIL = "northforgedigital1@gmail.com"; // ← MUST be a real inbox you check.
 const LINKEDIN = "https://www.linkedin.com/in/munib-ahmed-53a568294/";
 
 const ACCENT = "#5E6AD2";
 const ACCENT_BRIGHT = "#7C8AF0";
-const FG = "#F2F2F4";
-const FG_MUTED = "#9098A3";
 const RED = "#c0492f";
 const GREEN = "#3d8a5f";
 
@@ -83,6 +81,9 @@ export default function NorthForgeDigital() {
   const [sent, setSent] = useState(false);
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [theme, setTheme] = useState("dark");
+
+  const light = theme === "light";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -108,7 +109,6 @@ export default function NorthForgeDigital() {
     { n: "4", t: "Implement", d: "A few fixes, a rebuild, or nothing. I deliver whatever you choose." },
   ];
 
-  // Cause -> effect: why websites lose customers
   const causeEffect = [
     { cause: "Slow loading pages", effect: "Visitors leave before the page even appears." },
     { cause: "Broken or fiddly forms", effect: "Enquiries never reach you." },
@@ -127,7 +127,6 @@ export default function NorthForgeDigital() {
     { t: "Broken on mobile", d: "Overflowing text, cut-off images, menus that do not work.", span: 3 },
   ];
 
-  // Services phrased as business outcomes
   const services = [
     { t: "Find what's costing you customers", d: "A full review of what's stopping your site getting enquiries.", tag: "Start here" },
     { t: "Fix what's putting people off", d: "Broken buttons, poor mobile layouts, slow pages, confusing forms and booking." },
@@ -174,37 +173,98 @@ export default function NorthForgeDigital() {
   ];
 
   return (
-    <div style={{ background: "#050506", color: FG, fontFamily: '"Geist", "Inter", system-ui, sans-serif', lineHeight: 1.55, minHeight: "100vh", position: "relative", overflowX: "hidden" }}>
+    <div data-theme={theme} style={{ background: "var(--bg)", color: "var(--fg)", fontFamily: '"Geist", "Inter", system-ui, sans-serif', lineHeight: 1.55, minHeight: "100vh", position: "relative", overflowX: "hidden", transition: "background .4s ease, color .4s ease" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
+
+        /* ── THEME TOKENS ── */
+        [data-theme="dark"] {
+          --bg: #050506;
+          --fg: #F2F2F4;
+          --fg-muted: #9098A3;
+          --fg-soft: #c2c7cf;
+          --fg-faint: #5d6470;
+          --hairline: rgba(255,255,255,0.06);
+          --hairline-2: rgba(255,255,255,0.07);
+          --card-bg: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025));
+          --card-border: rgba(255,255,255,0.07);
+          --card-border-hover: rgba(255,255,255,0.12);
+          --card-shadow: inset 0 1px 0 0 rgba(255,255,255,0.06), 0 2px 24px rgba(0,0,0,0.45), 0 0 50px rgba(0,0,0,0.2);
+          --card-shadow-hover: inset 0 1px 0 0 rgba(255,255,255,0.08), 0 12px 44px rgba(0,0,0,0.55), 0 0 70px rgba(94,106,210,0.14);
+          --input-bg: #0E0E11;
+          --input-border: rgba(255,255,255,0.10);
+          --ghost-bg: rgba(255,255,255,0.05);
+          --ghost-bg-hover: rgba(255,255,255,0.09);
+          --ghost-ring: rgba(255,255,255,0.1);
+          --pill-bg: rgba(255,255,255,0.03);
+          --pill-border: rgba(255,255,255,0.10);
+          --nav-bg: rgba(5,5,6,0.72);
+          --footer-bg: #020203;
+          --grad-top: #ffffff;
+          --grad-bottom: rgba(255,255,255,0.62);
+          --bg-ellipse: radial-gradient(ellipse at top, #0b0b11 0%, #050506 52%, #020203 100%);
+          --logo-needle: #EDEDEF;
+          --logo-dot: #0b0b11;
+          --blob-opacity: 1;
+        }
+        [data-theme="light"] {
+          --bg: #F7F8FA;
+          --fg: #16181D;
+          --fg-muted: #5a6472;
+          --fg-soft: #36404e;
+          --fg-faint: #98a1ae;
+          --hairline: rgba(16,18,29,0.08);
+          --hairline-2: rgba(16,18,29,0.10);
+          --card-bg: linear-gradient(160deg, #ffffff, #fbfbfd);
+          --card-border: rgba(16,18,29,0.10);
+          --card-border-hover: rgba(94,106,210,0.45);
+          --card-shadow: 0 1px 2px rgba(16,18,29,0.04), 0 6px 22px rgba(16,18,29,0.06);
+          --card-shadow-hover: 0 10px 36px rgba(94,106,210,0.16), 0 2px 8px rgba(16,18,29,0.06);
+          --input-bg: #ffffff;
+          --input-border: rgba(16,18,29,0.14);
+          --ghost-bg: rgba(16,18,29,0.04);
+          --ghost-bg-hover: rgba(16,18,29,0.07);
+          --ghost-ring: rgba(16,18,29,0.12);
+          --pill-bg: #ffffff;
+          --pill-border: rgba(16,18,29,0.12);
+          --nav-bg: rgba(247,248,250,0.82);
+          --footer-bg: #eef0f4;
+          --grad-top: #16181D;
+          --grad-bottom: rgba(22,24,29,0.6);
+          --bg-ellipse: radial-gradient(ellipse at top, #eef0f7 0%, #f7f8fa 55%, #eef0f4 100%);
+          --logo-needle: #16181D;
+          --logo-dot: #ffffff;
+          --blob-opacity: 0.55;
+        }
+
         ::selection { background: ${ACCENT}; color: #fff; }
         :target { scroll-margin-top: 88px; }
         .qd-wrap { max-width: 1140px; margin: 0 auto; padding: 0 22px; }
         .qd-mono { font-family: "Geist Mono", ui-monospace, monospace; }
         .qd-card {
-          background: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025));
-          border: 1px solid rgba(255,255,255,0.07);
+          background: var(--card-bg);
+          border: 1px solid var(--card-border);
           border-radius: 18px;
-          box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.06), 0 2px 24px rgba(0,0,0,0.45), 0 0 50px rgba(0,0,0,0.2);
-          transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s cubic-bezier(.16,1,.3,1), border-color .35s ease;
+          box-shadow: var(--card-shadow);
+          transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s cubic-bezier(.16,1,.3,1), border-color .35s ease, background .4s ease;
         }
-        .qd-hover:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.12); box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.08), 0 12px 44px rgba(0,0,0,0.55), 0 0 70px rgba(94,106,210,0.14); }
+        .qd-hover:hover { transform: translateY(-5px); border-color: var(--card-border-hover); box-shadow: var(--card-shadow-hover); }
         .qd-btn { font-family: inherit; cursor: pointer; border: none; transition: all .2s cubic-bezier(.16,1,.3,1); position: relative; overflow: hidden; }
         .qd-btn:active { transform: scale(.98); }
         .qd-btn-primary { background: ${ACCENT}; color: #fff; font-weight: 600; box-shadow: 0 0 0 1px rgba(94,106,210,0.5), 0 6px 18px rgba(94,106,210,0.35), inset 0 1px 0 0 rgba(255,255,255,0.25); }
         .qd-btn-primary:hover { background: #6872D9; box-shadow: 0 0 0 1px rgba(94,106,210,0.65), 0 8px 26px rgba(94,106,210,0.5), inset 0 1px 0 0 rgba(255,255,255,0.3); }
-        .qd-btn-ghost { background: rgba(255,255,255,0.05); color: ${FG}; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1); }
-        .qd-btn-ghost:hover { background: rgba(255,255,255,0.09); }
-        .qd-link { color: ${FG_MUTED}; text-decoration: none; transition: color .2s ease; }
-        .qd-link:hover { color: ${FG}; }
-        .qd-input { font-family: inherit; font-size: 16px; width: 100%; padding: 13px 15px; background: #0E0E11; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; color: #f3f4f6; transition: border-color .2s ease, box-shadow .2s ease; }
-        .qd-input::placeholder { color: #636b78; }
+        .qd-btn-ghost { background: var(--ghost-bg); color: var(--fg); box-shadow: inset 0 0 0 1px var(--ghost-ring); }
+        .qd-btn-ghost:hover { background: var(--ghost-bg-hover); }
+        .qd-link { color: var(--fg-muted); text-decoration: none; transition: color .2s ease; }
+        .qd-link:hover { color: var(--fg); }
+        .qd-input { font-family: inherit; font-size: 16px; width: 100%; padding: 13px 15px; background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 10px; color: var(--fg); transition: border-color .2s ease, box-shadow .2s ease, background .4s ease; }
+        .qd-input::placeholder { color: var(--fg-faint); }
         .qd-input:focus { outline: none; border-color: ${ACCENT}; box-shadow: 0 0 0 3px rgba(94,106,210,0.25); }
         .qd-btn:focus-visible, .qd-link:focus-visible, .qd-faq:focus-visible { outline: 2px solid ${ACCENT}; outline-offset: 3px; border-radius: 6px; }
         h1,h2,h3 { line-height: 1.04; letter-spacing: -0.025em; font-weight: 600; }
-        .qd-grad { background: linear-gradient(180deg, #fff 25%, rgba(255,255,255,0.62)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .qd-grad { background: linear-gradient(180deg, var(--grad-top) 25%, var(--grad-bottom)); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .qd-accent { background: linear-gradient(100deg, ${ACCENT}, #9aa6ff, ${ACCENT}); background-size: 220% auto; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 7s linear infinite; }
         @keyframes shimmer { to { background-position: 220% center; } }
         @keyframes float1 { 0%,100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(0,-30px) rotate(2deg); } }
@@ -216,6 +276,8 @@ export default function NorthForgeDigital() {
         .qd-steps4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: stretch; }
         .qd-two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
         .qd-navlinks { display: none; }
+        .qd-theme-btn { font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 9px; background: var(--ghost-bg); color: var(--fg); border: 1px solid var(--ghost-ring); transition: background .2s ease, color .2s ease, border-color .2s ease; }
+        .qd-theme-btn:hover { background: var(--ghost-bg-hover); }
         @media (min-width: 880px) { .qd-navlinks { display: flex; } .qd-menu-btn { display: none; } }
         @media (max-width: 879px) {
           .qd-bento, .qd-steps4, .qd-two { grid-template-columns: 1fr; }
@@ -231,38 +293,46 @@ export default function NorthForgeDigital() {
       `}</style>
 
       {/* AMBIENT BACKGROUND */}
-      <div aria-hidden style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", background: "radial-gradient(ellipse at top, #0b0b11 0%, #050506 52%, #020203 100%)" }}>
-        <div className="qd-blob" style={{ position: "absolute", top: -220, left: "50%", marginLeft: -460, width: 920, height: 1000, borderRadius: "50%", background: "rgba(94,106,210,0.22)", filter: "blur(155px)", animation: "float1 9s ease-in-out infinite" }} />
-        <div className="qd-blob" style={{ position: "absolute", top: 320, left: -220, width: 620, height: 800, borderRadius: "50%", background: "rgba(150,94,210,0.13)", filter: "blur(125px)", animation: "float2 11s ease-in-out infinite" }} />
-        <div className="qd-blob" style={{ position: "absolute", top: 220, right: -160, width: 520, height: 720, borderRadius: "50%", background: "rgba(94,150,210,0.12)", filter: "blur(105px)", animation: "float1 10s ease-in-out infinite" }} />
+      <div aria-hidden style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", background: "var(--bg-ellipse)", transition: "background .4s ease" }}>
+        <div className="qd-blob" style={{ position: "absolute", top: -220, left: "50%", marginLeft: -460, width: 920, height: 1000, borderRadius: "50%", background: "rgba(94,106,210,0.22)", filter: "blur(155px)", opacity: "var(--blob-opacity)", animation: "float1 9s ease-in-out infinite" }} />
+        <div className="qd-blob" style={{ position: "absolute", top: 320, left: -220, width: 620, height: 800, borderRadius: "50%", background: "rgba(150,94,210,0.13)", filter: "blur(125px)", opacity: "var(--blob-opacity)", animation: "float2 11s ease-in-out infinite" }} />
+        <div className="qd-blob" style={{ position: "absolute", top: 220, right: -160, width: 520, height: 720, borderRadius: "50%", background: "rgba(94,150,210,0.12)", filter: "blur(105px)", opacity: "var(--blob-opacity)", animation: "float1 10s ease-in-out infinite" }} />
         <div className="qd-blob" style={{ position: "absolute", bottom: -120, left: "30%", width: 720, height: 520, borderRadius: "50%", background: "rgba(94,106,210,1)", filter: "blur(150px)", animation: "pulse 8s ease-in-out infinite" }} />
-        <div className="qd-grid" style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)", backgroundSize: "64px 64px", maskImage: "radial-gradient(ellipse at center, #000 30%, transparent 80%)" }} />
+        <div className="qd-grid" style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(127,127,140,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(127,127,140,0.05) 1px, transparent 1px)", backgroundSize: "64px 64px", maskImage: "radial-gradient(ellipse at center, #000 30%, transparent 80%)" }} />
       </div>
 
       <div style={{ position: "relative", zIndex: 1 }}>
         {/* NAV */}
-        <header style={{ position: "sticky", top: 0, zIndex: 50, background: scrolled ? "rgba(5,5,6,0.72)" : "transparent", backdropFilter: scrolled ? "blur(16px)" : "none", borderBottom: `1px solid ${scrolled ? "rgba(255,255,255,0.07)" : "transparent"}`, transition: "background .3s ease, border-color .3s ease" }}>
+        <header style={{ position: "sticky", top: 0, zIndex: 50, background: scrolled ? "var(--nav-bg)" : "transparent", backdropFilter: scrolled ? "blur(16px)" : "none", borderBottom: `1px solid ${scrolled ? "var(--hairline-2)" : "transparent"}`, transition: "background .3s ease, border-color .3s ease" }}>
           <div className="qd-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 66 }}>
-            <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: FG, fontWeight: 600, fontSize: 16, letterSpacing: "-0.01em" }}>
+            <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: "var(--fg)", fontWeight: 600, fontSize: 16, letterSpacing: "-0.01em" }}>
               <svg width="30" height="30" viewBox="0 0 88 88" aria-hidden="true" style={{ flexShrink: 0 }}>
                 <circle cx="44" cy="44" r="40" fill="none" stroke="#5E6AD2" strokeWidth="3" />
                 <path d="M44 16 L58 72 L44 60 L30 72 Z" fill="#5E6AD2" />
-                <path d="M31 70 L31 33" fill="none" stroke="#EDEDEF" strokeWidth="6" strokeLinecap="round" />
-                <path d="M31 33 L55 66" fill="none" stroke="#EDEDEF" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="44" cy="44" r="3.5" fill="#0b0b11" />
+                <path d="M31 70 L31 33" fill="none" stroke="var(--logo-needle)" strokeWidth="6" strokeLinecap="round" />
+                <path d="M31 33 L55 66" fill="none" stroke="var(--logo-needle)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="44" cy="44" r="3.5" fill="var(--logo-dot)" />
               </svg>
-              <span style={{ fontWeight: 700, fontSize: 17, letterSpacing: "-0.02em" }}>North<span style={{ color: "#5E6AD2" }}>Forge</span> <span style={{ color: "#9098A3", fontWeight: 400 }}>Digital</span></span>
+              <span style={{ fontWeight: 700, fontSize: 17, letterSpacing: "-0.02em" }}>North<span style={{ color: "#5E6AD2" }}>Forge</span> <span style={{ color: "var(--fg-muted)", fontWeight: 400 }}>Digital</span></span>
             </a>
             <nav className="qd-navlinks" style={{ gap: 26, alignItems: "center", fontSize: 14.5 }}>
               {nav.map(([t, h]) => <a key={h} href={h} className="qd-link">{t}</a>)}
+              <button className="qd-theme-btn" aria-label={light ? "Switch to dark mode" : "Switch to light mode"} onClick={() => setTheme(light ? "dark" : "light")}>
+                {light ? <MoonIcon /> : <SunIcon />}
+              </button>
               <a href="#contact" className="qd-btn qd-btn-primary" style={{ padding: "9px 17px", borderRadius: 9, fontSize: 14, textDecoration: "none" }}>Review my website</a>
             </nav>
-            <button className="qd-btn qd-menu-btn" aria-label="Menu" onClick={() => setMenu((m) => !m)} style={{ background: "transparent", color: FG, padding: 8, borderRadius: 8 }}>
-              {menu ? <CloseIcon /> : <MenuIcon />}
-            </button>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }} className="qd-menu-btn">
+              <button className="qd-theme-btn" aria-label={light ? "Switch to dark mode" : "Switch to light mode"} onClick={() => setTheme(light ? "dark" : "light")}>
+                {light ? <MoonIcon /> : <SunIcon />}
+              </button>
+              <button className="qd-btn" aria-label="Menu" onClick={() => setMenu((m) => !m)} style={{ background: "transparent", color: "var(--fg)", padding: 8, borderRadius: 8 }}>
+                {menu ? <CloseIcon /> : <MenuIcon />}
+              </button>
+            </div>
           </div>
           {menu && (
-            <div style={{ background: "rgba(5,5,6,0.97)", backdropFilter: "blur(16px)", borderTop: "1px solid rgba(255,255,255,0.07)", padding: "14px 22px 20px", display: "flex", flexDirection: "column", gap: 2 }}>
+            <div style={{ background: "var(--nav-bg)", backdropFilter: "blur(16px)", borderTop: "1px solid var(--hairline-2)", padding: "14px 22px 20px", display: "flex", flexDirection: "column", gap: 2 }}>
               {nav.map(([t, h]) => <a key={h} href={h} className="qd-link" onClick={() => setMenu(false)} style={{ padding: "11px 0", fontSize: 16 }}>{t}</a>)}
               <a href="#contact" className="qd-btn qd-btn-primary" onClick={() => setMenu(false)} style={{ padding: 13, borderRadius: 9, textAlign: "center", textDecoration: "none", marginTop: 8 }}>Review my website</a>
             </div>
@@ -274,7 +344,7 @@ export default function NorthForgeDigital() {
           <section style={{ padding: "clamp(58px,9vw,104px) 0 clamp(44px,6vw,68px)" }}>
             <div className="qd-wrap" style={{ textAlign: "center" }}>
               <Reveal>
-                <div className="qd-mono" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 11.5, letterSpacing: "0.16em", textTransform: "uppercase", color: FG_MUTED, padding: "7px 14px", border: "1px solid rgba(94,106,210,0.3)", borderRadius: 999, marginBottom: 28, background: "rgba(94,106,210,0.05)" }}>
+                <div className="qd-mono" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 11.5, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--fg-muted)", padding: "7px 14px", border: "1px solid rgba(94,106,210,0.3)", borderRadius: 999, marginBottom: 28, background: "rgba(94,106,210,0.05)" }}>
                   <span style={{ width: 6, height: 6, borderRadius: "50%", background: ACCENT, boxShadow: `0 0 8px ${ACCENT}` }} />
                   Newcastle &amp; the North East
                 </div>
@@ -287,7 +357,7 @@ export default function NorthForgeDigital() {
                 </h1>
               </Reveal>
               <Reveal delay={150}>
-                <p style={{ fontSize: "clamp(17px,2.1vw,21px)", color: FG_MUTED, maxWidth: 560, margin: "24px auto 0", lineHeight: 1.55 }}>
+                <p style={{ fontSize: "clamp(17px,2.1vw,21px)", color: "var(--fg-muted)", maxWidth: 560, margin: "24px auto 0", lineHeight: 1.55 }}>
                   I review websites, find what's costing you customers, and put the right fix in place.
                 </p>
               </Reveal>
@@ -298,13 +368,13 @@ export default function NorthForgeDigital() {
                 </div>
               </Reveal>
               <Reveal delay={300}>
-                <p className="qd-mono" style={{ marginTop: 26, fontSize: 12, color: "#5d6470", letterSpacing: "0.04em" }}>Personal website reviews · honest advice · no obligation</p>
+                <p className="qd-mono" style={{ marginTop: 26, fontSize: 12, color: "var(--fg-faint)", letterSpacing: "0.04em" }}>Personal website reviews · honest advice · no obligation</p>
               </Reveal>
             </div>
           </section>
 
           {/* WHO I HELP */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(34px,4vw,48px) 0" }}>
+          <section style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(34px,4vw,48px) 0" }}>
             <div className="qd-wrap" style={{ textAlign: "center" }}>
               <Reveal>
                 <p className="qd-mono" style={{ fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: ACCENT_BRIGHT, marginBottom: 22 }}>I work with local businesses like</p>
@@ -312,7 +382,7 @@ export default function NorthForgeDigital() {
               <Reveal delay={60}>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
                   {who.map((w) => (
-                    <span key={w} style={{ fontSize: 14.5, color: "#c8cdd5", padding: "8px 16px", borderRadius: 999, border: "1px solid rgba(255,255,255,0.10)", background: "rgba(255,255,255,0.03)" }}>{w}</span>
+                    <span key={w} style={{ fontSize: 14.5, color: "var(--fg-soft)", padding: "8px 16px", borderRadius: 999, border: "1px solid var(--pill-border)", background: "var(--pill-bg)" }}>{w}</span>
                   ))}
                 </div>
               </Reveal>
@@ -320,19 +390,19 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* PROBLEM STRIP */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(40px,5vw,58px) 0" }}>
+          <section style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(40px,5vw,58px) 0" }}>
             <div className="qd-wrap">
               <Reveal>
                 <p style={{ fontSize: "clamp(21px,3vw,30px)", maxWidth: 820, lineHeight: 1.3, letterSpacing: "-0.015em" }}>
-                  <span style={{ color: FG }}>Most owners think their website is fine because it exists.</span>{" "}
-                  <span style={{ color: FG_MUTED }}>But a slow page or a broken form can cost real enquiries every week, and you would never know.</span>
+                  <span style={{ color: "var(--fg)" }}>Most owners think their website is fine because it exists.</span>{" "}
+                  <span style={{ color: "var(--fg-muted)" }}>But a slow page or a broken form can cost real enquiries every week, and you would never know.</span>
                 </p>
               </Reveal>
             </div>
           </section>
 
-          {/* WHY WEBSITES LOSE CUSTOMERS (cause -> effect) */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
+          {/* WHY WEBSITES LOSE CUSTOMERS */}
+          <section style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>Why websites lose customers</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 44 }}>Small problems, real lost business</h2></Reveal>
@@ -342,11 +412,11 @@ export default function NorthForgeDigital() {
                     <SpotCard pad={22} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                         <CrossIcon color={RED} />
-                        <span style={{ fontSize: 16.5, fontWeight: 600, color: FG }}>{c.cause}</span>
+                        <span style={{ fontSize: 16.5, fontWeight: 600, color: "var(--fg)" }}>{c.cause}</span>
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: 10, paddingLeft: 4 }}>
                         <ArrowDown />
-                        <span style={{ fontSize: 14.5, color: FG_MUTED }}>{c.effect}</span>
+                        <span style={{ fontSize: 14.5, color: "var(--fg-muted)" }}>{c.effect}</span>
                       </div>
                     </SpotCard>
                   </Reveal>
@@ -356,19 +426,19 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* HOW IT WORKS */}
-          <section id="how" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
+          <section id="how" style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>How it works</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>Diagnose first. Fix what matters.</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 500, marginBottom: 18, fontSize: 17 }}>Most agencies want to sell you a new site. I start by telling you if you even need one.</p></Reveal>
-              <Reveal delay={140}><p className="qd-mono" style={{ color: "#5d6470", maxWidth: 540, marginBottom: 44, fontSize: 12.5, letterSpacing: "0.03em" }}>Reviews are based only on publicly visible website issues. No intrusive testing, hacking, or scanning.</p></Reveal>
+              <Reveal delay={110}><p style={{ color: "var(--fg-muted)", maxWidth: 500, marginBottom: 18, fontSize: 17 }}>Most agencies want to sell you a new site. I start by telling you if you even need one.</p></Reveal>
+              <Reveal delay={140}><p className="qd-mono" style={{ color: "var(--fg-faint)", maxWidth: 540, marginBottom: 44, fontSize: 12.5, letterSpacing: "0.03em" }}>Reviews are based only on publicly visible website issues. No intrusive testing, hacking, or scanning.</p></Reveal>
               <div className="qd-steps4">
                 {steps.map((s, i) => (
                   <Reveal key={s.n} delay={i * 70} style={{ height: "100%" }}>
                     <SpotCard pad={24} style={{ display: "flex", flexDirection: "column" }}>
                       <div style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(94,106,210,0.15)", border: "1px solid rgba(94,106,210,0.35)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, color: ACCENT_BRIGHT, marginBottom: 16, fontSize: 17 }}>{s.n}</div>
-                      <h3 style={{ fontSize: 18, marginBottom: 8, color: FG }}>{s.t}</h3>
-                      <p style={{ color: FG_MUTED, fontSize: 14.5 }}>{s.d}</p>
+                      <h3 style={{ fontSize: 18, marginBottom: 8, color: "var(--fg)" }}>{s.t}</h3>
+                      <p style={{ color: "var(--fg-muted)", fontSize: 14.5 }}>{s.d}</p>
                     </SpotCard>
                   </Reveal>
                 ))}
@@ -376,8 +446,8 @@ export default function NorthForgeDigital() {
             </div>
           </section>
 
-          {/* WHAT I LOOK FOR (bento) */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
+          {/* WHAT I LOOK FOR */}
+          <section style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>What I look for</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 44 }}>What quietly turns visitors away</h2></Reveal>
@@ -387,8 +457,8 @@ export default function NorthForgeDigital() {
                     <Reveal delay={i * 60} style={{ height: "100%" }}>
                       <SpotCard pad={24} style={{ display: "flex", flexDirection: "column" }}>
                         <div style={{ width: 9, height: 9, borderRadius: 2, background: ACCENT, boxShadow: `0 0 12px ${ACCENT}`, marginBottom: 16, transform: "rotate(45deg)" }} />
-                        <h3 style={{ fontSize: 18, marginBottom: 7, color: FG }}>{f.t}</h3>
-                        <p style={{ color: FG_MUTED, fontSize: 14.5 }}>{f.d}</p>
+                        <h3 style={{ fontSize: 18, marginBottom: 7, color: "var(--fg)" }}>{f.t}</h3>
+                        <p style={{ color: "var(--fg-muted)", fontSize: 14.5 }}>{f.d}</p>
                       </SpotCard>
                     </Reveal>
                   </div>
@@ -398,18 +468,18 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* SERVICES */}
-          <section id="services" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
+          <section id="services" style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>Services</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>What I can do for your business</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 560, marginBottom: 44, fontSize: 17 }}>I don't just tell you what's wrong. I implement the fixes, improve your current website, or rebuild it if that's the better option.</p></Reveal>
+              <Reveal delay={110}><p style={{ color: "var(--fg-muted)", maxWidth: 560, marginBottom: 44, fontSize: 17 }}>I don't just tell you what's wrong. I implement the fixes, improve your current website, or rebuild it if that's the better option.</p></Reveal>
               <div className="qd-svc">
                 {services.map((s, i) => (
                   <Reveal key={s.t} delay={i * 45} style={{ height: "100%" }}>
                     <SpotCard pad={22} style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                       {s.tag && <span className="qd-mono" style={{ alignSelf: "flex-start", fontSize: 10.5, color: ACCENT_BRIGHT, letterSpacing: "0.08em", textTransform: "uppercase", border: "1px solid rgba(94,106,210,0.35)", padding: "3px 8px", borderRadius: 999, marginBottom: 3 }}>{s.tag}</span>}
-                      <h3 style={{ fontSize: 17, color: FG }}>{s.t}</h3>
-                      <p style={{ color: FG_MUTED, fontSize: 14 }}>{s.d}</p>
+                      <h3 style={{ fontSize: 17, color: "var(--fg)" }}>{s.t}</h3>
+                      <p style={{ color: "var(--fg-muted)", fontSize: 14 }}>{s.d}</p>
                     </SpotCard>
                   </Reveal>
                 ))}
@@ -418,7 +488,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* WHY TRUST + WHAT I WON'T DO */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
+          <section style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap qd-two">
               <Reveal>
                 <Label>Why trust NorthForge</Label>
@@ -427,7 +497,7 @@ export default function NorthForgeDigital() {
                   {trust.map((w) => (
                     <div key={w} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <CheckIcon color={GREEN} />
-                      <span style={{ fontSize: 16, color: "#d6dae1" }}>{w}</span>
+                      <span style={{ fontSize: 16, color: "var(--fg-soft)" }}>{w}</span>
                     </div>
                   ))}
                 </div>
@@ -439,7 +509,7 @@ export default function NorthForgeDigital() {
                   {wontDo.map((w) => (
                     <div key={w} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                       <CrossIcon color={RED} />
-                      <span style={{ fontSize: 16, color: "#d6dae1" }}>{w}</span>
+                      <span style={{ fontSize: 16, color: "var(--fg-soft)" }}>{w}</span>
                     </div>
                   ))}
                 </div>
@@ -448,7 +518,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* WHAT HAPPENS DURING A REVIEW */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
+          <section style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>What happens during a review</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 40 }}>No risk to you, no catch</h2></Reveal>
@@ -458,7 +528,7 @@ export default function NorthForgeDigital() {
                     {reviewSteps.map((s, i) => (
                       <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
                         <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
-                        <span style={{ fontSize: 16, color: "#d6dae1" }}>{s}</span>
+                        <span style={{ fontSize: 16, color: "var(--fg-soft)" }}>{s}</span>
                       </div>
                     ))}
                   </div>
@@ -468,22 +538,22 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* SAMPLE REPORT */}
-          <section id="sample" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
+          <section id="sample" style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>Sample report</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 520, marginBottom: 12 }}>Exactly what you get</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 540, marginBottom: 14, fontSize: 17 }}>A short, visual review with a 90-second video walkthrough. Yours is specific to your site.</p></Reveal>
-              <Reveal delay={140}><p className="qd-mono" style={{ fontSize: 12, color: "#5d6470", marginBottom: 40, letterSpacing: "0.04em" }}>EXAMPLE ONLY — created to show the format</p></Reveal>
+              <Reveal delay={110}><p style={{ color: "var(--fg-muted)", maxWidth: 540, marginBottom: 14, fontSize: 17 }}>A short, visual review with a 90-second video walkthrough. Yours is specific to your site.</p></Reveal>
+              <Reveal delay={140}><p className="qd-mono" style={{ fontSize: 12, color: "var(--fg-faint)", marginBottom: 40, letterSpacing: "0.04em" }}>EXAMPLE ONLY — created to show the format</p></Reveal>
               <Reveal delay={170}><SampleReport /></Reveal>
             </div>
           </section>
 
-          {/* PRICING (explainer, no numbers) */}
-          <section id="pricing" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
+          {/* PRICING */}
+          <section id="pricing" style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap" style={{ maxWidth: 760 }}>
               <Reveal><Label>Pricing</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", marginBottom: 12 }}>Simple, honest pricing</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 540, marginBottom: 40, fontSize: 17 }}>Every business and website is different, so I don't do one-size-fits-all prices. Here's how it works.</p></Reveal>
+              <Reveal delay={110}><p style={{ color: "var(--fg-muted)", maxWidth: 540, marginBottom: 40, fontSize: 17 }}>Every business and website is different, so I don't do one-size-fits-all prices. Here's how it works.</p></Reveal>
               <Reveal delay={150}>
                 <SpotCard pad={30}>
                   <div style={{ display: "grid", gap: 16 }}>
@@ -495,7 +565,7 @@ export default function NorthForgeDigital() {
                     ].map((p, i) => (
                       <div key={i} style={{ display: "flex", alignItems: "center", gap: 14 }}>
                         <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
-                        <span style={{ fontSize: 16, color: "#d6dae1" }}>{p}</span>
+                        <span style={{ fontSize: 16, color: "var(--fg-soft)" }}>{p}</span>
                       </div>
                     ))}
                   </div>
@@ -506,7 +576,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* FAQ */}
-          <section id="faq" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
+          <section id="faq" style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap" style={{ maxWidth: 760 }}>
               <Reveal><Label>FAQ</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", marginBottom: 40 }}>Questions, answered</h2></Reveal>
@@ -516,13 +586,13 @@ export default function NorthForgeDigital() {
             </div>
           </section>
 
-          {/* ABOUT (story-led, lower on page) */}
-          <section id="about" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
+          {/* ABOUT */}
+          <section id="about" style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap" style={{ maxWidth: 860 }}>
               <Reveal delay={80}>
                 <Label>About</Label>
                 <h2 className="qd-grad" style={{ fontSize: "clamp(24px,3.6vw,36px)", marginBottom: 18 }}>Why I started NorthForge</h2>
-                <div style={{ color: "#c2c7cf", fontSize: 17, display: "grid", gap: 14 }}>
+                <div style={{ color: "var(--fg-soft)", fontSize: 17, display: "grid", gap: 14 }}>
                   <p>I started NorthForge after noticing that most local businesses weren't losing customers because they had terrible websites. They were losing them because of small problems nobody had pointed out.</p>
                   <p>A broken booking form. A slow page. A site that's awkward on a phone. A confusing layout. Quiet issues that cost real enquiries every week.</p>
                   <p>My goal is simple: find those problems, explain them in plain English, and fix them. I'm {OWNER}, a Computer Science graduate from Northumbria University, based in Newcastle. I work directly with each business, so every recommendation is properly reviewed and explained clearly.</p>
@@ -532,18 +602,18 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* CONTACT */}
-          <section id="contact" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(48px,7vw,84px) 0 clamp(54px,8vw,92px)" }}>
+          <section id="contact" style={{ borderTop: "1px solid var(--hairline)", padding: "clamp(48px,7vw,84px) 0 clamp(54px,8vw,92px)" }}>
             <div className="qd-wrap" style={{ maxWidth: 540 }}>
               <Reveal><div style={{ textAlign: "center" }}><Label center>Free, no obligation</Label></div></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", textAlign: "center", marginBottom: 14 }}>Review my website</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, fontSize: 17, textAlign: "center", maxWidth: 440, margin: "0 auto 36px" }}>Send your website. I reply with the main things worth fixing. No pressure to buy.</p></Reveal>
+              <Reveal delay={110}><p style={{ color: "var(--fg-muted)", fontSize: 17, textAlign: "center", maxWidth: 440, margin: "0 auto 36px" }}>Send your website. I reply with the main things worth fixing. No pressure to buy.</p></Reveal>
               <Reveal delay={160}>
                 <SpotCard pad={28}>
                   {sent ? (
                     <div style={{ textAlign: "center", padding: "14px 0" }}>
                       <div style={{ fontSize: 38, marginBottom: 8, color: ACCENT_BRIGHT }}>✓</div>
-                      <h3 style={{ fontSize: 20, marginBottom: 8, color: FG }}>Your email is ready</h3>
-                      <p style={{ color: FG_MUTED, fontSize: 15 }}>If your email app did not open, message me at <a href={`mailto:${EMAIL}`} style={{ color: ACCENT_BRIGHT, fontWeight: 600 }}>{EMAIL}</a>.</p>
+                      <h3 style={{ fontSize: 20, marginBottom: 8, color: "var(--fg)" }}>Your email is ready</h3>
+                      <p style={{ color: "var(--fg-muted)", fontSize: 15 }}>If your email app did not open, message me at <a href={`mailto:${EMAIL}`} style={{ color: ACCENT_BRIGHT, fontWeight: 600 }}>{EMAIL}</a>.</p>
                     </div>
                   ) : (
                     <div style={{ display: "grid", gap: 14 }}>
@@ -552,13 +622,13 @@ export default function NorthForgeDigital() {
                       <Field label="Your email" required><input className="qd-input" type="email" placeholder="you@business.co.uk" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></Field>
                       <Field label="Anything to look at? (optional)"><textarea className="qd-input" rows={3} placeholder="e.g. nobody uses our booking form" value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} /></Field>
                       <button className="qd-btn qd-btn-primary" onClick={submit} style={{ padding: 15, borderRadius: 11, fontSize: 16, marginTop: 4 }}>Review my website</button>
-                      <p style={{ fontSize: 12.5, color: "#5d6470", textAlign: "center" }}>I only use your details to reply about your review.</p>
+                      <p style={{ fontSize: 12.5, color: "var(--fg-faint)", textAlign: "center" }}>I only use your details to reply about your review.</p>
                     </div>
                   )}
                 </SpotCard>
               </Reveal>
               <Reveal delay={220}>
-                <p style={{ textAlign: "center", marginTop: 40, fontSize: "clamp(18px,2.4vw,22px)", color: "#c2c7cf", maxWidth: 520, margin: "40px auto 0", lineHeight: 1.4 }}>
+                <p style={{ textAlign: "center", marginTop: 40, fontSize: "clamp(18px,2.4vw,22px)", color: "var(--fg-soft)", maxWidth: 520, margin: "40px auto 0", lineHeight: 1.4 }}>
                   Your website should be helping your business grow, not quietly costing you customers.
                 </p>
               </Reveal>
@@ -567,9 +637,9 @@ export default function NorthForgeDigital() {
         </main>
 
         {/* FOOTER */}
-        <footer style={{ background: "#020203", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "40px 0" }}>
+        <footer style={{ background: "var(--footer-bg)", borderTop: "1px solid var(--hairline)", padding: "40px 0", transition: "background .4s ease" }}>
           <div className="qd-wrap" style={{ display: "flex", flexWrap: "wrap", gap: 20, justifyContent: "space-between", alignItems: "center", fontSize: 14 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, color: FG, fontWeight: 600 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, color: "var(--fg)", fontWeight: 600 }}>
               <span style={{ width: 10, height: 10, borderRadius: 3, background: ACCENT, boxShadow: `0 0 10px ${ACCENT}`, transform: "rotate(45deg)" }} />
               {BRAND}
             </div>
@@ -577,10 +647,10 @@ export default function NorthForgeDigital() {
               <a href={`mailto:${EMAIL}`} className="qd-link">{EMAIL}</a>
               <a href={LINKEDIN} className="qd-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
               <a href="#contact" className="qd-link">Book a call</a>
-              <span style={{ color: FG_MUTED }}>Newcastle upon Tyne</span>
+              <span style={{ color: "var(--fg-muted)" }}>Newcastle upon Tyne</span>
             </div>
           </div>
-          <div className="qd-wrap" style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", fontSize: 12.5, color: "#4a5159" }}>
+          <div className="qd-wrap" style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "space-between", fontSize: 12.5, color: "var(--fg-faint)" }}>
             <span>© {new Date().getFullYear()} {BRAND}. Findings are based on a publicly observable website review only.</span>
             <span style={{ display: "flex", gap: 16 }}>
               <a href="/privacy" className="qd-link" style={{ fontSize: 12.5 }}>Privacy</a>
@@ -606,7 +676,7 @@ function Label({ children, center }) {
 function Field({ label, required, children }) {
   return (
     <label style={{ display: "block" }}>
-      <span style={{ display: "block", fontSize: 13.5, fontWeight: 500, color: FG, marginBottom: 7 }}>
+      <span style={{ display: "block", fontSize: 13.5, fontWeight: 500, color: "var(--fg)", marginBottom: 7 }}>
         {label}{required && <span style={{ color: ACCENT_BRIGHT }}> *</span>}
       </span>
       {children}
@@ -619,12 +689,12 @@ function FaqItem({ q, a }) {
   return (
     <div className="qd-card" style={{ overflow: "hidden" }}>
       <button className="qd-btn qd-faq" onClick={() => setOpen((o) => !o)} aria-expanded={open}
-        style={{ width: "100%", background: "transparent", color: FG, padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, textAlign: "left", fontSize: 16.5, fontWeight: 500 }}>
+        style={{ width: "100%", background: "transparent", color: "var(--fg)", padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, textAlign: "left", fontSize: 16.5, fontWeight: 500 }}>
         {q}
         <span style={{ flexShrink: 0, transform: open ? "rotate(45deg)" : "rotate(0deg)", transition: "transform .25s ease", color: ACCENT_BRIGHT, fontSize: 22, lineHeight: 1 }}>+</span>
       </button>
       <div style={{ maxHeight: open ? 220 : 0, overflow: "hidden", transition: "max-height .3s cubic-bezier(.16,1,.3,1)" }}>
-        <p style={{ padding: "0 22px 20px", color: FG_MUTED, fontSize: 15.5 }}>{a}</p>
+        <p style={{ padding: "0 22px 20px", color: "var(--fg-muted)", fontSize: 15.5 }}>{a}</p>
       </div>
     </div>
   );
@@ -640,6 +710,12 @@ function CrossIcon({ color }) {
 function ArrowDown() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C8AF0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><line x1="12" y1="5" x2="12" y2="19" /><polyline points="19 12 12 19 5 12" /></svg>;
 }
+function SunIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" /></svg>;
+}
+function MoonIcon() {
+  return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>;
+}
 
 function SampleReport() {
   const rows = [
@@ -651,8 +727,7 @@ function SampleReport() {
   ];
   return (
     <div className="qd-card" style={{ overflow: "hidden", maxWidth: 820 }}>
-      {/* header bar styled like a document */}
-      <div style={{ background: "linear-gradient(to bottom, rgba(94,106,210,0.13), rgba(255,255,255,0.02))", padding: "22px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+      <div style={{ background: "linear-gradient(to bottom, rgba(94,106,210,0.13), rgba(94,106,210,0.02))", padding: "22px 26px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16, borderBottom: "1px solid var(--hairline)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           <div style={{ display: "flex", gap: 6 }}>
             <span style={{ width: 11, height: 11, borderRadius: "50%", background: "#c0492f" }} />
@@ -661,35 +736,34 @@ function SampleReport() {
           </div>
           <div>
             <div className="qd-mono" style={{ fontSize: 11, color: ACCENT_BRIGHT, letterSpacing: "0.13em", textTransform: "uppercase" }}>Website review</div>
-            <div style={{ fontSize: 21, marginTop: 4, color: FG, fontWeight: 600, letterSpacing: "-0.01em" }}>Example: Local barber website review</div>
+            <div style={{ fontSize: 21, marginTop: 4, color: "var(--fg)", fontWeight: 600, letterSpacing: "-0.01em" }}>Example: Local barber website review</div>
           </div>
         </div>
         <div style={{ textAlign: "center" }}>
-          <div className="qd-accent" style={{ fontSize: 40, fontWeight: 700, lineHeight: 1 }}>58<span style={{ fontSize: 18, color: FG_MUTED }}>/100</span></div>
-          <div className="qd-mono" style={{ fontSize: 10.5, color: FG_MUTED, marginTop: 3, letterSpacing: "0.1em" }}>HEALTH SCORE</div>
+          <div className="qd-accent" style={{ fontSize: 40, fontWeight: 700, lineHeight: 1 }}>58<span style={{ fontSize: 18, color: "var(--fg-muted)" }}>/100</span></div>
+          <div className="qd-mono" style={{ fontSize: 10.5, color: "var(--fg-muted)", marginTop: 3, letterSpacing: "0.1em" }}>HEALTH SCORE</div>
         </div>
       </div>
-      {/* column headers */}
-      <div className="qd-mono" style={{ display: "grid", gridTemplateColumns: "92px 1fr", gap: 14, padding: "12px 26px", borderBottom: "1px solid rgba(255,255,255,0.06)", fontSize: 10.5, letterSpacing: "0.1em", textTransform: "uppercase", color: "#5d6470" }}>
+      <div className="qd-mono" style={{ display: "grid", gridTemplateColumns: "92px 1fr", gap: 14, padding: "12px 26px", borderBottom: "1px solid var(--hairline)", fontSize: 10.5, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--fg-faint)" }}>
         <span>Priority</span><span>Issue, impact &amp; fix</span>
       </div>
       <div>
         {rows.map((r, i) => (
-          <div key={i} style={{ display: "grid", gridTemplateColumns: "92px 1fr", gap: 14, padding: "17px 26px", borderTop: i === 0 ? "none" : "1px solid rgba(255,255,255,0.05)", alignItems: "flex-start" }}>
+          <div key={i} style={{ display: "grid", gridTemplateColumns: "92px 1fr", gap: 14, padding: "17px 26px", borderTop: i === 0 ? "none" : "1px solid var(--hairline)", alignItems: "flex-start" }}>
             <span className="qd-mono" style={{ alignSelf: "flex-start", fontSize: 10, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em", color: "#fff", background: r.color, padding: "4px 9px", borderRadius: 6, justifySelf: "start" }}>{r.label}</span>
             <div>
-              <div style={{ fontWeight: 600, fontSize: 15.5, color: FG, marginBottom: 4 }}>{r.title}</div>
-              <div style={{ color: FG_MUTED, fontSize: 14, marginBottom: 6 }}>{r.impact}</div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13.5, color: "#a9b0e0" }}>
+              <div style={{ fontWeight: 600, fontSize: 15.5, color: "var(--fg)", marginBottom: 4 }}>{r.title}</div>
+              <div style={{ color: "var(--fg-muted)", fontSize: 14, marginBottom: 6 }}>{r.impact}</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13.5, color: ACCENT_BRIGHT }}>
                 <CheckIcon color={GREEN} small />
-                <span><strong style={{ color: "#c8cdd5", fontWeight: 600 }}>Fix:</strong> {r.fix}</span>
+                <span><strong style={{ color: "var(--fg-soft)", fontWeight: 600 }}>Fix:</strong> {r.fix}</span>
               </div>
             </div>
           </div>
         ))}
       </div>
-      <div className="qd-mono" style={{ padding: "14px 26px", background: "rgba(94,106,210,0.08)", fontSize: 12.5, color: "#a9b0e0", borderTop: "1px solid rgba(255,255,255,0.06)", letterSpacing: "0.02em" }}>
-        Effort to fix the critical items: <strong style={{ color: FG }}>about half a day.</strong> No rebuild needed.
+      <div className="qd-mono" style={{ padding: "14px 26px", background: "rgba(94,106,210,0.08)", fontSize: 12.5, color: ACCENT_BRIGHT, borderTop: "1px solid var(--hairline)", letterSpacing: "0.02em" }}>
+        Effort to fix the critical items: <strong style={{ color: "var(--fg)" }}>about half a day.</strong> No rebuild needed.
       </div>
     </div>
   );
