@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NorthForge Digital favicon">
-  <rect width="64" height="64" rx="16" fill="#5E6AD2" />
-  <path d="M20 46V18h6.2l13.8 17.8V18H44v28h-6.2L24 28.2V46H20Z" fill="#ffffff" />
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="NorthForge">
+  <rect width="64" height="64" rx="14" fill="#0b0b11"/>
+  <circle cx="32" cy="32" r="22" fill="none" stroke="#5E6AD2" stroke-width="3"/>
+  <path d="M32 15 L40 46 L32 39 L24 46 Z" fill="#5E6AD2"/>
+  <path d="M22 44 L22 22" fill="none" stroke="#EDEDEF" stroke-width="4" stroke-linecap="round"/>
+  <path d="M22 22 L36 41" fill="none" stroke="#EDEDEF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
