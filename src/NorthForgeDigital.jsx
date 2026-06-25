@@ -289,7 +289,7 @@ export default function NorthForgeDigital() {
                 </div>
               </Reveal>
               <Reveal delay={300}>
-                <p className="qd-mono" style={{ marginTop: 26, fontSize: 12, color: "#5d6470", letterSpacing: "0.04em" }}>CS graduate · one business at a time · no obligation</p>
+                <p className="qd-mono" style={{ marginTop: 26, fontSize: 12, color: "#5d6470", letterSpacing: "0.04em" }}> one business at a time · no obligation</p>
               </Reveal>
             </div>
           </section>
