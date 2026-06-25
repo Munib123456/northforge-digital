@@ -12,7 +12,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const BRAND = "NorthForge Digital";
 const OWNER = "Munib Ahmed";
-const EMAIL = "hello@north-forge.studio"; // ← must be a real inbox you can read
+const EMAIL = "Ahmedmunib61@gmail.com"; // ← must be a real inbox you can read
 const LINKEDIN = "https://www.linkedin.com/in/munib-ahmed-53a568294/";
 
 const ACCENT = "#5E6AD2";
@@ -526,9 +526,8 @@ export default function NorthForgeDigital() {
                     <img src={munibPhoto} alt="Munib Ahmed" width={132} height={132}
                       style={{ borderRadius: 20, objectFit: "cover",
                       border: "1px solid rgba(255,255,255,0.1)" }} /> */}
-                <div style={{ width: 132, height: 132, borderRadius: 20, background: "linear-gradient(135deg, rgba(94,106,210,0.25), rgba(154,166,255,0.1))", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <span className="qd-mono" style={{ fontSize: 12, color: FG_MUTED, textAlign: "center", padding: 12 }}>your photo here</span>
-                </div>
+                <img src="/munibpic.jpeg" alt="Munib Ahmed" width={132} height={132}
+                  style={{ borderRadius: 20, objectFit: "cover", border: "1px solid rgba(255,255,255,0.1)", flexShrink: 0, display: "block" }} />
               </Reveal>
               <Reveal delay={80}>
                 <Label>About</Label>
