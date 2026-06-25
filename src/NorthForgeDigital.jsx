@@ -6,7 +6,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 // To add your photo: drop a square photo at src/munib.jpg,
 //   uncomment the import line below, and the <img> in About.
 // Testimonials are an honest placeholder until you have real ones.
-// Pricing uses "From £XX" placeholders — set real numbers or remove.
+// Pricing explains how quotes work after the free review.
 // ─────────────────────────────────────────────────────────────
 
 // To add your photo: drop a square image at src/munib.jpg, then at the top of
@@ -106,10 +106,10 @@ export default function NorthForgeDigital() {
   const who = ["Dentists", "Trades & builders", "Mechanics", "Gyms", "Clinics", "Accountants", "Estate agents", "Barbers", "Restaurants"];
 
   const steps = [
-    { n: "1", t: "Website review", d: "I go through your site like a customer would, on a phone first." },
-    { n: "2", t: "Identify issues", d: "I find what is actually stopping enquiries, calls, and bookings." },
+    { n: "1", t: "Website review", d: "We go through your site like a customer would, on a phone first." },
+    { n: "2", t: "Identify issues", d: "We find what is actually stopping enquiries, calls, and bookings." },
     { n: "3", t: "Recommend solutions", d: "A clear, ranked plan in plain English. Only what is worth doing." },
-    { n: "4", t: "Implement", d: "A few fixes, a rebuild, or nothing. I deliver whatever you choose." },
+    { n: "4", t: "Implement", d: "A few fixes, a rebuild, or nothing. We deliver whatever you choose." },
   ];
 
   const fixes = [
@@ -150,28 +150,21 @@ export default function NorthForgeDigital() {
   ];
 
   const reviewSteps = [
-    "I review your website properly.",
-    "I identify the biggest issues.",
-    "I explain them in plain English.",
-    "I recommend only the work that needs doing.",
-    "If you want it fixed, I send a quote.",
+    "We review your website properly.",
+    "We identify the biggest issues.",
+    "We explain them in plain English.",
+    "We recommend only the work that needs doing.",
+    "If you want it fixed, we send a quote.",
     "If not, you keep the review for free.",
   ];
 
-  const pricing = [
-    { t: "Website Review", price: "Free", note: "A full health check and a ranked list of what to fix first.", highlight: true },
-    { t: "Fixes & Optimisation", price: "From £XX", note: "Targeted improvements to speed, mobile, forms, and booking." },
-    { t: "Redesign / Rebuild", price: "Custom quote", note: "A fast, modern site when patching the old one is not worth it." },
-    { t: "Ongoing Support", price: "From £XX / mo", note: "Updates, backups, monitoring, and small changes." },
-  ];
-
   const faqs = [
-    { q: "Do I actually need a new website?", a: "Often, no. Most sites just need a few targeted fixes. I will tell you honestly which one applies to you." },
-    { q: "How long does a review take?", a: "The review itself is quick. I usually send it back within a day or two, with a short video walking through it." },
-    { q: "Do you work with WordPress, Wix, Squarespace?", a: "Yes. I work with whatever your site is built on, and can fix the existing one rather than forcing a rebuild." },
+    { q: "Do I actually need a new website?", a: "Often, no. Most sites just need a few targeted fixes. We'll tell you honestly which one applies to you." },
+    { q: "How long does a review take?", a: "The review itself is quick. We usually send it back within a day or two, with a short video walking through it." },
+    { q: "Do you work with WordPress, Wix, Squarespace?", a: "Yes. We work with whatever your site is built on, and can fix the existing one rather than forcing a rebuild." },
     { q: "Can you work on my current site?", a: "Yes. Improving what you already have is usually the cheaper, faster option, and often all you need." },
     { q: "Is this a security test?", a: "No. I only review what is publicly visible. I do not do any kind of hacking, scanning, or intrusive testing." },
-    { q: "What does it cost to get started?", a: "Nothing. The first review is free with no obligation. You only pay if you want me to carry out the work." },
+    { q: "What does it cost to get started?", a: "Nothing. The first review is free with no obligation. You only pay if you want us to carry out the work." },
   ];
 
   return (
@@ -274,12 +267,12 @@ export default function NorthForgeDigital() {
                 <h1 style={{ fontSize: "clamp(38px,7.2vw,78px)", maxWidth: 900, margin: "0 auto", letterSpacing: "-0.035em", lineHeight: 1.02 }}>
                   <span className="qd-grad">Your website could be </span>
                   <span className="qd-accent">losing you customers.</span>
-                  <span className="qd-grad"> I find out why, and fix it.</span>
+                  <span className="qd-grad"> We find out why, and fix it.</span>
                 </h1>
               </Reveal>
               <Reveal delay={150}>
                 <p style={{ fontSize: "clamp(17px,2.1vw,20px)", color: FG_MUTED, maxWidth: 600, margin: "24px auto 0", lineHeight: 1.55 }}>
-                  Whether your site needs a few targeted fixes, a better booking flow, mobile improvements, or a full rebuild, I help you find the right solution and deliver it.
+                  Whether your site needs a few targeted fixes, a better booking flow, mobile improvements, or a full rebuild, we help you find the right solution and deliver it.
                 </p>
               </Reveal>
               <Reveal delay={230}>
@@ -298,7 +291,7 @@ export default function NorthForgeDigital() {
           <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(44px,6vw,64px) 0" }}>
             <div className="qd-wrap" style={{ textAlign: "center" }}>
               <Reveal>
-                <p className="qd-mono" style={{ fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: ACCENT_BRIGHT, marginBottom: 22 }}>I work with local businesses like</p>
+                <p className="qd-mono" style={{ fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: ACCENT_BRIGHT, marginBottom: 22 }}>We work with local businesses like</p>
               </Reveal>
               <Reveal delay={60}>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
@@ -327,7 +320,7 @@ export default function NorthForgeDigital() {
             <div className="qd-wrap">
               <Reveal><Label>How it works</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>Diagnose first. Fix what matters.</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 500, marginBottom: 44, fontSize: 17 }}>Most agencies want to sell you a new site. I start by telling you if you even need one.</p></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 500, marginBottom: 44, fontSize: 17 }}>Most agencies want to sell you a new site. We start by telling you if you even need one.</p></Reveal>
               <div className="qd-steps4">
                 {steps.map((s, i) => (
                   <Reveal key={s.n} delay={i * 70} style={{ height: "100%" }}>
@@ -345,7 +338,7 @@ export default function NorthForgeDigital() {
           {/* WHAT I LOOK FOR (bento) */}
           <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
             <div className="qd-wrap">
-              <Reveal><Label>What I look for</Label></Reveal>
+              <Reveal><Label>What we look for</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 44 }}>What quietly turns visitors away</h2></Reveal>
               <div className="qd-bento">
                 {fixes.map((f, i) => (
@@ -368,7 +361,7 @@ export default function NorthForgeDigital() {
             <div className="qd-wrap">
               <Reveal><Label>Services</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>Review, fix, improve, rebuild, maintain</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 560, marginBottom: 44, fontSize: 17 }}>I don't just tell you what's wrong. I can implement the fixes, improve your current website, or rebuild it if that's the better option.</p></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 560, marginBottom: 44, fontSize: 17 }}>We don't just tell you what's wrong. We can implement the fixes, improve your current website, or rebuild it if that's the better option.</p></Reveal>
               <div className="qd-svc">
                 {services.map((s, i) => (
                   <Reveal key={s.t} delay={i * 45} style={{ height: "100%" }}>
@@ -399,7 +392,7 @@ export default function NorthForgeDigital() {
                 </div>
               </Reveal>
               <Reveal delay={100}>
-                <Label>What I won't do</Label>
+                <Label>What we won't do</Label>
                 <h2 className="qd-grad" style={{ fontSize: "clamp(26px,4vw,38px)", marginBottom: 28 }}>No pressure, no nonsense</h2>
                 <div style={{ display: "grid", gap: 12 }}>
                   {wontDo.map((w) => (
@@ -448,19 +441,32 @@ export default function NorthForgeDigital() {
           <section id="pricing" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>Pricing</Label></Reveal>
-              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 520, marginBottom: 12 }}>Simple and honest</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 520, marginBottom: 44, fontSize: 17 }}>The first review is free. Everything else is quoted only after I know what your site actually needs.</p></Reveal>
-              <div className="qd-price">
-                {pricing.map((p, i) => (
-                  <Reveal key={p.t} delay={i * 60} style={{ height: "100%" }}>
-                    <SpotCard pad={24} style={{ display: "flex", flexDirection: "column", gap: 8, border: p.highlight ? "1px solid rgba(94,106,210,0.4)" : undefined }}>
-                      <h3 style={{ fontSize: 16.5, color: FG }}>{p.t}</h3>
-                      <div className="qd-accent" style={{ fontSize: 26, fontWeight: 700 }}>{p.price}</div>
-                      <p style={{ color: FG_MUTED, fontSize: 14 }}>{p.note}</p>
-                    </SpotCard>
-                  </Reveal>
-                ))}
-              </div>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 520, marginBottom: 12 }}>Simple, honest pricing</h2></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 720, marginBottom: 44, fontSize: 17 }}>Every business and website is different, so I don't believe in one-size-fits-all prices. Here's how it works.</p></Reveal>
+              <Reveal delay={150}>
+                <SpotCard pad={30} style={{ maxWidth: 860 }}>
+                  <div style={{ display: "grid", gap: 16 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                      <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
+                      <span style={{ fontSize: 16, color: "#d6dae1" }}>The first website review is completely free.</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                      <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
+                      <span style={{ fontSize: 16, color: "#d6dae1" }}>After the review, I give you a clear, fixed quote for any work, with no obligation.</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                      <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
+                      <span style={{ fontSize: 16, color: "#d6dae1" }}>Small fixes cost far less than a full rebuild, and I'll always recommend the cheaper option when it's the right one.</span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                      <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", background: "rgba(61,138,95,0.18)", border: "1px solid rgba(61,138,95,0.4)", display: "flex", alignItems: "center", justifyContent: "center" }}><CheckIcon color={GREEN} small /></span>
+                      <span style={{ fontSize: 16, color: "#d6dae1" }}>No hidden fees, no surprise charges, no pressure to go ahead.</span>
+                    </div>
+                  </div>
+                  <p style={{ color: FG_MUTED, fontSize: 16, marginTop: 24 }}>Want a quote? Send your website for a free review and I'll explain exactly what it needs.</p>
+                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ display: "inline-block", marginTop: 16, padding: "13px 24px", borderRadius: 10, fontSize: 15, textDecoration: "none" }}>Get my free review</a>
+                </SpotCard>
+              </Reveal>
             </div>
           </section>
 
@@ -483,7 +489,7 @@ export default function NorthForgeDigital() {
                 <SpotCard pad={36} style={{ textAlign: "center", maxWidth: 620, margin: "0 auto" }}>
                   <h3 style={{ fontSize: 22, color: FG, marginBottom: 10 }}>Real reviews coming soon</h3>
                   <p style={{ color: FG_MUTED, fontSize: 16, maxWidth: 460, margin: "0 auto" }}>
-                    NorthForge is new, so I'd rather show real client feedback than invent it. This space fills up as I complete the first reviews.
+                    NorthForge is new, so we'd rather show real client feedback than invent it. This space fills up as we complete the first reviews.
                   </p>
                   <a href="#contact" className="qd-btn qd-btn-ghost" style={{ display: "inline-block", marginTop: 22, padding: "12px 22px", borderRadius: 10, fontSize: 15, textDecoration: "none" }}>Be one of the first</a>
                 </SpotCard>
@@ -509,8 +515,8 @@ export default function NorthForgeDigital() {
                 <h2 className="qd-grad" style={{ fontSize: "clamp(24px,3.6vw,36px)", marginBottom: 18 }}>A local CS graduate, not a call centre</h2>
                 <div style={{ color: "#c2c7cf", fontSize: 17, display: "grid", gap: 14 }}>
                   <p>I'm {OWNER}, a Computer Science graduate from Northumbria University, based in Newcastle.</p>
-                  <p>I built NorthForge because too many local businesses have websites that quietly lose customers every day. Rather than selling sites people don't need, I find the real problems and deliver the right fix.</p>
-                  <p>AI helps me move fast, but I check every finding myself. If your site needs a few tweaks, I say so. If it needs rebuilding, I say that too.</p>
+                  <p>We built NorthForge because too many local businesses have websites that quietly lose customers every day. Rather than selling sites people don't need, we find the real problems and deliver the right fix.</p>
+                  <p>AI helps us move fast, but we check every finding ourselves. If your site needs a few tweaks, we say so. If it needs rebuilding, we say that too.</p>
                 </div>
               </Reveal>
             </div>
@@ -521,14 +527,14 @@ export default function NorthForgeDigital() {
             <div className="qd-wrap" style={{ maxWidth: 540 }}>
               <Reveal><div style={{ textAlign: "center" }}><Label center>Free, no obligation</Label></div></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", textAlign: "center", marginBottom: 14 }}>Request your free website review</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, fontSize: 17, textAlign: "center", maxWidth: 440, margin: "0 auto 36px" }}>Send your website. I reply with the main things worth fixing. No pressure to buy.</p></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, fontSize: 17, textAlign: "center", maxWidth: 440, margin: "0 auto 36px" }}>Send your website. We reply with the main things worth fixing. No pressure to buy.</p></Reveal>
               <Reveal delay={160}>
                 <SpotCard pad={28}>
                   {sent ? (
                     <div style={{ textAlign: "center", padding: "14px 0" }}>
                       <div style={{ fontSize: 38, marginBottom: 8, color: ACCENT_BRIGHT }}>✓</div>
                       <h3 style={{ fontSize: 20, marginBottom: 8, color: FG }}>Your email is ready</h3>
-                      <p style={{ color: FG_MUTED, fontSize: 15 }}>If your email app did not open, message me at <a href={`mailto:${EMAIL}`} style={{ color: ACCENT_BRIGHT, fontWeight: 600 }}>{EMAIL}</a>.</p>
+                      <p style={{ color: FG_MUTED, fontSize: 15 }}>If your email app did not open, message us at <a href={`mailto:${EMAIL}`} style={{ color: ACCENT_BRIGHT, fontWeight: 600 }}>{EMAIL}</a>.</p>
                     </div>
                   ) : (
                     <div style={{ display: "grid", gap: 14 }}>
@@ -536,8 +542,8 @@ export default function NorthForgeDigital() {
                       <Field label="Your email" required><input className="qd-input" type="email" placeholder="you@business.co.uk" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></Field>
                       <Field label="Your name"><input className="qd-input" placeholder="First name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></Field>
                       <Field label="Anything to look at? (optional)"><textarea className="qd-input" rows={3} placeholder="e.g. nobody uses our booking form" value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} /></Field>
-                      <button className="qd-btn qd-btn-primary" onClick={submit} style={{ padding: 15, borderRadius: 11, fontSize: 16, marginTop: 4 }}>Send me a free review</button>
-                      <p style={{ fontSize: 12.5, color: "#5d6470", textAlign: "center" }}>I only use your details to reply about your review.</p>
+                      <button className="qd-btn qd-btn-primary" onClick={submit} style={{ padding: 15, borderRadius: 11, fontSize: 16, marginTop: 4 }}>Send us a free review</button>
+                      <p style={{ fontSize: 12.5, color: "#5d6470", textAlign: "center" }}>We only use your details to reply about your review.</p>
                     </div>
                   )}
                 </SpotCard>
