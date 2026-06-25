@@ -244,8 +244,14 @@ export default function NorthForgeDigital() {
         <header style={{ position: "sticky", top: 0, zIndex: 50, background: scrolled ? "rgba(5,5,6,0.72)" : "transparent", backdropFilter: scrolled ? "blur(16px)" : "none", borderBottom: `1px solid ${scrolled ? "rgba(255,255,255,0.07)" : "transparent"}`, transition: "background .3s ease, border-color .3s ease" }}>
           <div className="qd-wrap" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 66 }}>
             <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", color: FG, fontWeight: 600, fontSize: 16, letterSpacing: "-0.01em" }}>
-              <span style={{ width: 11, height: 11, borderRadius: 3, background: ACCENT, boxShadow: `0 0 12px ${ACCENT}`, transform: "rotate(45deg)" }} />
-              {BRAND}
+              <svg width="30" height="30" viewBox="0 0 88 88" aria-hidden="true" style={{ flexShrink: 0 }}>
+                <circle cx="44" cy="44" r="40" fill="none" stroke="#5E6AD2" strokeWidth="3" />
+                <path d="M44 16 L58 72 L44 60 L30 72 Z" fill="#5E6AD2" />
+                <path d="M31 70 L31 33" fill="none" stroke="#EDEDEF" strokeWidth="6" strokeLinecap="round" />
+                <path d="M31 33 L55 66" fill="none" stroke="#EDEDEF" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="44" cy="44" r="3.5" fill="#0b0b11" />
+              </svg>
+              <span style={{ fontWeight: 700, fontSize: 17, letterSpacing: "-0.02em" }}>North<span style={{ color: "#5E6AD2" }}>Forge</span> <span style={{ color: "#9098A3", fontWeight: 400 }}>Digital</span></span>
             </a>
             <nav className="qd-navlinks" style={{ gap: 26, alignItems: "center", fontSize: 14.5 }}>
               {nav.map(([t, h]) => <a key={h} href={h} className="qd-link">{t}</a>)}
