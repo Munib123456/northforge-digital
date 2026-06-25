@@ -12,7 +12,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const BRAND = "NorthForge Digital";
 const OWNER = "Munib Ahmed";
-const EMAIL = "Ahmedmunib61@gmail.com"; // ← must be a real inbox you can read
+const EMAIL = "northforgedigital@gmail.com"; // ← MUST be a real inbox you check. Switch to hello@north-forge.studio once that mailbox works.
 const LINKEDIN = "https://www.linkedin.com/in/munib-ahmed-53a568294/";
 
 const ACCENT = "#5E6AD2";
@@ -90,22 +90,10 @@ export default function NorthForgeDigital() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const submit = async (event) => {
-    event.preventDefault();
+  const submit = () => {
     if (!form.website || !form.email) return;
-
-    const formData = new FormData(event.currentTarget);
-    const body = new URLSearchParams();
-    formData.forEach((value, key) => {
-      body.append(key, value.toString());
-    });
-
-    await fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: body.toString(),
-    });
-
+    const body = encodeURIComponent(`Business: ${form.business}\nWebsite: ${form.website}\nEmail: ${form.email}\n\n${form.note}`);
+    window.location.href = `mailto:${EMAIL}?subject=Website%20review%20request&body=${body}`;
     setSent(true);
   };
 
@@ -257,7 +245,7 @@ export default function NorthForgeDigital() {
             </a>
             <nav className="qd-navlinks" style={{ gap: 26, alignItems: "center", fontSize: 14.5 }}>
               {nav.map(([t, h]) => <a key={h} href={h} className="qd-link">{t}</a>)}
-              <a href="#contact" className="qd-btn qd-btn-primary" style={{ padding: "9px 17px", borderRadius: 9, fontSize: 14, textDecoration: "none" }}>Free review</a>
+              <a href="#contact" className="qd-btn qd-btn-primary" style={{ padding: "9px 17px", borderRadius: 9, fontSize: 14, textDecoration: "none" }}>Review my website</a>
             </nav>
             <button className="qd-btn qd-menu-btn" aria-label="Menu" onClick={() => setMenu((m) => !m)} style={{ background: "transparent", color: FG, padding: 8, borderRadius: 8 }}>
               {menu ? <CloseIcon /> : <MenuIcon />}
@@ -266,14 +254,14 @@ export default function NorthForgeDigital() {
           {menu && (
             <div style={{ background: "rgba(5,5,6,0.97)", backdropFilter: "blur(16px)", borderTop: "1px solid rgba(255,255,255,0.07)", padding: "14px 22px 20px", display: "flex", flexDirection: "column", gap: 2 }}>
               {nav.map(([t, h]) => <a key={h} href={h} className="qd-link" onClick={() => setMenu(false)} style={{ padding: "11px 0", fontSize: 16 }}>{t}</a>)}
-              <a href="#contact" className="qd-btn qd-btn-primary" onClick={() => setMenu(false)} style={{ padding: 13, borderRadius: 9, textAlign: "center", textDecoration: "none", marginTop: 8 }}>Free review</a>
+              <a href="#contact" className="qd-btn qd-btn-primary" onClick={() => setMenu(false)} style={{ padding: 13, borderRadius: 9, textAlign: "center", textDecoration: "none", marginTop: 8 }}>Review my website</a>
             </div>
           )}
         </header>
 
         <main id="top">
           {/* HERO */}
-          <section style={{ padding: "clamp(72px,11vw,128px) 0 clamp(56px,8vw,88px)" }}>
+          <section style={{ padding: "clamp(58px,9vw,104px) 0 clamp(44px,6vw,68px)" }}>
             <div className="qd-wrap" style={{ textAlign: "center" }}>
               <Reveal>
                 <div className="qd-mono" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 11.5, letterSpacing: "0.16em", textTransform: "uppercase", color: FG_MUTED, padding: "7px 14px", border: "1px solid rgba(94,106,210,0.3)", borderRadius: 999, marginBottom: 28, background: "rgba(94,106,210,0.05)" }}>
@@ -295,18 +283,18 @@ export default function NorthForgeDigital() {
               </Reveal>
               <Reveal delay={230}>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 36 }}>
-                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ padding: "15px 28px", borderRadius: 11, fontSize: 16, textDecoration: "none" }}>Request your free website review</a>
+                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ padding: "15px 28px", borderRadius: 11, fontSize: 16, textDecoration: "none" }}>Review my website</a>
                   <a href="#sample" className="qd-btn qd-btn-ghost" style={{ padding: "15px 26px", borderRadius: 11, fontSize: 16, textDecoration: "none" }}>See a sample</a>
                 </div>
               </Reveal>
               <Reveal delay={300}>
-                <p className="qd-mono" style={{ marginTop: 26, fontSize: 12, color: "#5d6470", letterSpacing: "0.04em" }}>One business at a time · honest advice · no obligation</p>
+                <p className="qd-mono" style={{ marginTop: 26, fontSize: 12, color: "#5d6470", letterSpacing: "0.04em" }}>Personal website reviews · honest advice · no obligation</p>
               </Reveal>
             </div>
           </section>
 
           {/* WHO I HELP */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(44px,6vw,64px) 0" }}>
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(34px,4vw,48px) 0" }}>
             <div className="qd-wrap" style={{ textAlign: "center" }}>
               <Reveal>
                 <p className="qd-mono" style={{ fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: ACCENT_BRIGHT, marginBottom: 22 }}>I work with local businesses like</p>
@@ -322,7 +310,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* PROBLEM STRIP */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(52px,7vw,76px) 0" }}>
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(40px,5vw,58px) 0" }}>
             <div className="qd-wrap">
               <Reveal>
                 <p style={{ fontSize: "clamp(21px,3vw,30px)", maxWidth: 820, lineHeight: 1.3, letterSpacing: "-0.015em" }}>
@@ -334,7 +322,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* WHY WEBSITES LOSE CUSTOMERS (cause -> effect) */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>Why websites lose customers</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 44 }}>Small problems, real lost business</h2></Reveal>
@@ -358,11 +346,12 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* HOW IT WORKS */}
-          <section id="how" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          <section id="how" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>How it works</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>Diagnose first. Fix what matters.</h2></Reveal>
-              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 500, marginBottom: 44, fontSize: 17 }}>Most agencies want to sell you a new site. I start by telling you if you even need one.</p></Reveal>
+              <Reveal delay={110}><p style={{ color: FG_MUTED, maxWidth: 500, marginBottom: 18, fontSize: 17 }}>Most agencies want to sell you a new site. I start by telling you if you even need one.</p></Reveal>
+              <Reveal delay={140}><p className="qd-mono" style={{ color: "#5d6470", maxWidth: 540, marginBottom: 44, fontSize: 12.5, letterSpacing: "0.03em" }}>Reviews are based only on publicly visible website issues. No intrusive testing, hacking, or scanning.</p></Reveal>
               <div className="qd-steps4">
                 {steps.map((s, i) => (
                   <Reveal key={s.n} delay={i * 70} style={{ height: "100%" }}>
@@ -378,7 +367,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* WHAT I LOOK FOR (bento) */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>What I look for</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 44 }}>What quietly turns visitors away</h2></Reveal>
@@ -399,7 +388,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* SERVICES */}
-          <section id="services" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          <section id="services" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>Services</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 12 }}>What I can do for your business</h2></Reveal>
@@ -419,7 +408,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* WHY TRUST + WHAT I WON'T DO */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap qd-two">
               <Reveal>
                 <Label>Why trust NorthForge</Label>
@@ -449,7 +438,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* WHAT HAPPENS DURING A REVIEW */}
-          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          <section style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>What happens during a review</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 560, marginBottom: 40 }}>No risk to you, no catch</h2></Reveal>
@@ -469,7 +458,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* SAMPLE REPORT */}
-          <section id="sample" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          <section id="sample" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap">
               <Reveal><Label>Sample report</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", maxWidth: 520, marginBottom: 12 }}>Exactly what you get</h2></Reveal>
@@ -480,7 +469,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* PRICING (explainer, no numbers) */}
-          <section id="pricing" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          <section id="pricing" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap" style={{ maxWidth: 760 }}>
               <Reveal><Label>Pricing</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", marginBottom: 12 }}>Simple, honest pricing</h2></Reveal>
@@ -500,14 +489,14 @@ export default function NorthForgeDigital() {
                       </div>
                     ))}
                   </div>
-                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ display: "inline-block", marginTop: 26, padding: "13px 24px", borderRadius: 11, fontSize: 15, textDecoration: "none" }}>Get my free review</a>
+                  <a href="#contact" className="qd-btn qd-btn-primary" style={{ display: "inline-block", marginTop: 26, padding: "13px 24px", borderRadius: 11, fontSize: 15, textDecoration: "none" }}>Review my website</a>
                 </SpotCard>
               </Reveal>
             </div>
           </section>
 
           {/* FAQ */}
-          <section id="faq" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          <section id="faq" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap" style={{ maxWidth: 760 }}>
               <Reveal><Label>FAQ</Label></Reveal>
               <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", marginBottom: 40 }}>Questions, answered</h2></Reveal>
@@ -518,7 +507,7 @@ export default function NorthForgeDigital() {
           </section>
 
           {/* ABOUT (story-led, lower on page) */}
-          <section id="about" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(60px,9vw,112px) 0" }}>
+          <section id="about" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(46px,7vw,84px) 0" }}>
             <div className="qd-wrap" style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 32, alignItems: "start", maxWidth: 860 }}>
               <Reveal>
                 {/* Photo placeholder. To use a real photo, add at the top of the file:
@@ -526,8 +515,9 @@ export default function NorthForgeDigital() {
                     <img src={munibPhoto} alt="Munib Ahmed" width={132} height={132}
                       style={{ borderRadius: 20, objectFit: "cover",
                       border: "1px solid rgba(255,255,255,0.1)" }} /> */}
-                <img src="/munibpic.jpeg" alt="Munib Ahmed" width={132} height={132}
-                  style={{ borderRadius: 20, objectFit: "cover", border: "1px solid rgba(255,255,255,0.1)", flexShrink: 0, display: "block" }} />
+                <div style={{ width: 132, height: 132, borderRadius: 20, background: "linear-gradient(135deg, rgba(94,106,210,0.25), rgba(154,166,255,0.1))", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <span className="qd-mono" style={{ fontSize: 12, color: FG_MUTED, textAlign: "center", padding: 12 }}>your photo here</span>
+                </div>
               </Reveal>
               <Reveal delay={80}>
                 <Label>About</Label>
@@ -535,37 +525,35 @@ export default function NorthForgeDigital() {
                 <div style={{ color: "#c2c7cf", fontSize: 17, display: "grid", gap: 14 }}>
                   <p>I started NorthForge after noticing that most local businesses weren't losing customers because they had terrible websites. They were losing them because of small problems nobody had pointed out.</p>
                   <p>A broken booking form. A slow page. A site that's awkward on a phone. A confusing layout. Quiet issues that cost real enquiries every week.</p>
-                  <p>My goal is simple: find those problems, explain them in plain English, and fix them. I'm {OWNER}, a Computer Science graduate from Northumbria University, based in Newcastle, and I work with one business at a time.</p>
+                  <p>My goal is simple: find those problems, explain them in plain English, and fix them. I'm {OWNER}, a Computer Science graduate from Northumbria University, based in Newcastle. I work directly with each business, so every recommendation is properly reviewed and explained clearly.</p>
                 </div>
               </Reveal>
             </div>
           </section>
 
           {/* CONTACT */}
-          <section id="contact" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(64px,9vw,112px) 0 clamp(72px,10vw,120px)" }}>
+          <section id="contact" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "clamp(48px,7vw,84px) 0 clamp(54px,8vw,92px)" }}>
             <div className="qd-wrap" style={{ maxWidth: 540 }}>
               <Reveal><div style={{ textAlign: "center" }}><Label center>Free, no obligation</Label></div></Reveal>
-              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", textAlign: "center", marginBottom: 14 }}>Request your free website review</h2></Reveal>
+              <Reveal delay={60}><h2 className="qd-grad" style={{ fontSize: "clamp(30px,4.5vw,48px)", textAlign: "center", marginBottom: 14 }}>Review my website</h2></Reveal>
               <Reveal delay={110}><p style={{ color: FG_MUTED, fontSize: 17, textAlign: "center", maxWidth: 440, margin: "0 auto 36px" }}>Send your website. I reply with the main things worth fixing. No pressure to buy.</p></Reveal>
               <Reveal delay={160}>
                 <SpotCard pad={28}>
                   {sent ? (
                     <div style={{ textAlign: "center", padding: "14px 0" }}>
                       <div style={{ fontSize: 38, marginBottom: 8, color: ACCENT_BRIGHT }}>✓</div>
-                      <h3 style={{ fontSize: 20, marginBottom: 8, color: FG }}>Your review request is sent</h3>
-                      <p style={{ color: FG_MUTED, fontSize: 15 }}>Thanks — I’ll review it and get back to you as soon as I can.</p>
+                      <h3 style={{ fontSize: 20, marginBottom: 8, color: FG }}>Your email is ready</h3>
+                      <p style={{ color: FG_MUTED, fontSize: 15 }}>If your email app did not open, message me at <a href={`mailto:${EMAIL}`} style={{ color: ACCENT_BRIGHT, fontWeight: 600 }}>{EMAIL}</a>.</p>
                     </div>
                   ) : (
-                    <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={submit} style={{ display: "grid", gap: 14 }}>
-                      <input type="hidden" name="form-name" value="contact" />
-                      <input name="bot-field" style={{ display: "none" }} value="" onChange={() => {}} />
-                      <Field label="Business name"><input className="qd-input" name="business" placeholder="Your business" value={form.business} onChange={(e) => setForm({ ...form, business: e.target.value })} /></Field>
-                      <Field label="Your website" required><input className="qd-input" name="website" placeholder="yourbusiness.co.uk" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} /></Field>
-                      <Field label="Your email" required><input className="qd-input" name="email" type="email" placeholder="you@business.co.uk" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></Field>
-                      <Field label="Anything to look at? (optional)"><textarea className="qd-input" name="note" rows={3} placeholder="e.g. nobody uses our booking form" value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} /></Field>
-                      <button className="qd-btn qd-btn-primary" type="submit" style={{ padding: 15, borderRadius: 11, fontSize: 16, marginTop: 4 }}>Send my free review request</button>
+                    <div style={{ display: "grid", gap: 14 }}>
+                      <Field label="Business name"><input className="qd-input" placeholder="Your business" value={form.business} onChange={(e) => setForm({ ...form, business: e.target.value })} /></Field>
+                      <Field label="Your website" required><input className="qd-input" placeholder="yourbusiness.co.uk" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} /></Field>
+                      <Field label="Your email" required><input className="qd-input" type="email" placeholder="you@business.co.uk" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></Field>
+                      <Field label="Anything to look at? (optional)"><textarea className="qd-input" rows={3} placeholder="e.g. nobody uses our booking form" value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} /></Field>
+                      <button className="qd-btn qd-btn-primary" onClick={submit} style={{ padding: 15, borderRadius: 11, fontSize: 16, marginTop: 4 }}>Review my website</button>
                       <p style={{ fontSize: 12.5, color: "#5d6470", textAlign: "center" }}>I only use your details to reply about your review.</p>
-                    </form>
+                    </div>
                   )}
                 </SpotCard>
               </Reveal>
@@ -673,7 +661,7 @@ function SampleReport() {
           </div>
           <div>
             <div className="qd-mono" style={{ fontSize: 11, color: ACCENT_BRIGHT, letterSpacing: "0.13em", textTransform: "uppercase" }}>Website review</div>
-            <div style={{ fontSize: 21, marginTop: 4, color: FG, fontWeight: 600, letterSpacing: "-0.01em" }}>Sample: a Newcastle barber</div>
+            <div style={{ fontSize: 21, marginTop: 4, color: FG, fontWeight: 600, letterSpacing: "-0.01em" }}>Example: Local barber website review</div>
           </div>
         </div>
         <div style={{ textAlign: "center" }}>
